@@ -3,7 +3,7 @@ web:
    environment:
      - ALLOW_OVERRIDE=true
    ports:
-     - "80:80"
+     - "81:80"
    links:
      - db
    volumes:
