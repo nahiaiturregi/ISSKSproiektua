@@ -10,7 +10,7 @@ web:
      - ./app:/var/www/html/
 
 db:
-  image: mariadb
+  image: mariadb:10.8.2
   restart: always
   volumes:
     - ./mysql:/var/lib/mysql
