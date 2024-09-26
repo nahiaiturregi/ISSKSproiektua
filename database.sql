@@ -29,16 +29,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
-  `nombre` text NOT NULL
+  `nombre` text NOT NULL, 
+  `nan` text NOT NULL, 
+  `telefonoa` int(9) NOT NULL,
+  `jaiotze-data` date NOT NULL,
+  `email` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `FunkoPop` (
+   `id` int(11) NOT NULL,
+   `izena` text NOT NULL,
+   `mota` text NOT NULL,
+   `tamaina` text NOT NULL, 
+   `prezioa` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`) VALUES
-(1, 'mikel'),
-(2, 'aitor');
+INSERT INTO `FunkoPop` VALUES
+  (1, 'Will', 'Stranger Things', 'Handia', 30.99),
+  (2, 'Hange Zoe', 'Attack on Titan', 'Ertaina', 16.99);
 
 --
 -- Índices para tablas volcadas
@@ -49,6 +62,10 @@ INSERT INTO `usuarios` (`id`, `nombre`) VALUES
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
+COMMIT;
+
+ALTER TABLE `FunkoPop`
+	ADD PRIMARY KEY (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

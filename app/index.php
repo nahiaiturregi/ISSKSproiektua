@@ -13,14 +13,14 @@
 
 
 
-$query = mysqli_query($conn, "SELECT * FROM usuarios")
+$query = mysqli_query($conn, "SELECT * FROM FunkoPop")
    or die (mysqli_error($conn));
 
 while ($row = mysqli_fetch_array($query)) {
   echo
    "<tr>
     <td>{$row['id']}</td>
-    <td>{$row['nombre']}</td>
+    <td>{$row['izena']}</td>
    </tr>";
    
 
