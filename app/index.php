@@ -1,3 +1,15 @@
+<html>
+
+<head>
+
+<title>
+	Funko Pop web orria!!
+</title>
+
+</head>
+
+<body>
+
 <?php
   echo '<h1>Yeah, it works!<h1>';
   // phpinfo();
@@ -27,3 +39,7 @@ while ($row = mysqli_fetch_array($query)) {
 }
 
 ?>
+
+</body>
+
+</html>
