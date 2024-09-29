@@ -9,14 +9,20 @@ if (isset($_POST['action'])) {
 // Determine which form to show based on user selection
 switch ($_SESSION['selected_action'] ?? null) {
     case 'identifikatu':
-        include 'login_form.php'; // Show Formulario de Registro
+        include 'login.php'; // Show Formulario de Registro
         break;
+
+    case 'zerrenda ikusi':
+        include 'items.php'; // Show the items list
+        break;
+
     default:
         // Show the menu if no action has been selected
         ?>
         <h1>Seleccione una acción</h1>
         <form method="POST">
             <input type="submit" name="action" value="identifikatu" />
+            <input type="submit" name="action" value="zerrenda ikusi" />
         </form>
         <?php
         break;
