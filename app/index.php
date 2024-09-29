@@ -1,45 +1,25 @@
-<html>
-
-<head>
-
-<title>
-	Funko Pop web orria!!
-</title>
-
-</head>
-
-<body>
-
 <?php
-  echo '<h1>Yeah, it works!<h1>';
-  // phpinfo();
-  $hostname = "db";
-  $username = "admin";
-  $password = "test";
-  $db = "database";
+session_start(); // Start the session
 
-  $conn = mysqli_connect($hostname,$username,$password,$db);
-  if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-  }
-
-
-
-$query = mysqli_query($conn, "SELECT * FROM FunkoPop")
-   or die (mysqli_error($conn));
-
-while ($row = mysqli_fetch_array($query)) {
-  echo
-   "<tr>
-    <td>{$row['id']}</td>
-    <td>{$row['izena']}</td>
-   </tr>";
-   
-
+// Check if an action has been selected
+if (isset($_POST['action'])) {
+    $_SESSION['selected_action'] = $_POST['action']; // Save the selected action
 }
 
+// Determine which form to show based on user selection
+switch ($_SESSION['selected_action'] ?? null) {
+    case 'identifikatu':
+        include 'login_form.php'; // Show Formulario de Registro
+        break;
+    default:
+        // Show the menu if no action has been selected
+        ?>
+        <h1>Seleccione una acción</h1>
+        <form method="POST">
+            <input type="submit" name="action" value="identifikatu" />
+        </form>
+        <?php
+        break;
+}
 ?>
 
-</body>
-
-</html>

@@ -48,6 +48,9 @@ CREATE TABLE `FunkoPop` (
 --
 -- Volcado de datos para la tabla `usuarios`
 --
+INSERT INTO `usuarios`VALUES
+  (1, 'Admin', '66666666-Z', 644646464, 2004-04-02, 'admin@gmail.com');
+
 
 INSERT INTO `FunkoPop` VALUES
   (1, 'Will', 'Stranger Things', 'Handia', 30.99),
