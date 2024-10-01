@@ -18,13 +18,13 @@
         //$erabiltzailea = mysqli_real_escape_string($conn, $erabiltzailea);
         //$pasahitza = mysqli_real_escape_string($conn, $pasahitza);
 
-        $query = "SELECT * FROM usuarios WHERE nombre='$erabiltzailea' AND telefonoa='$pasahitza'";
+        $query = "SELECT * FROM usuarios WHERE nombre='$erabiltzailea' AND pasahitza='$pasahitza'";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) == 1) {
-            $_SESSION['erabiltzailea'] = $erabiltzailea;
-            echo "Login successful!";
-            //Redirigir
+            $_SESSION['user'] = $erabiltzailea;
+            header("Location: /");
+            exit();
         } else {
             echo "Invalid erabiltzailea or pasahitza.";
         }
