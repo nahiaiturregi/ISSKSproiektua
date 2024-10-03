@@ -22,7 +22,9 @@
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) == 1) {
-            $_SESSION['user'] = $erabiltzailea;
+            $row = mysqli_fetch_assoc($result);
+            $id = $row['id'];
+            $_SESSION['user'] = $id;
             header("Location: /");
             exit();
         } else {
