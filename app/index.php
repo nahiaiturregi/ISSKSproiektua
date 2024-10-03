@@ -12,7 +12,10 @@ if (isset($_POST['action'])) {
         case 'zerrenda ikusi':
             header("Location: items.php");
             exit();
-            
+       	case 'erabiltzailearen datuak aldatu':
+       	    header("Location: modify_user.php");
+       	    exit();
+       	    
         default:
             // Si la acción no es válida, redirigir al home
             header("Location: index.php");
@@ -26,4 +29,5 @@ if (isset($_POST['action'])) {
 <form method="POST" action="index.php">
     <input type="submit" name="action" value="identifikatu" />
     <input type="submit" name="action" value="zerrenda ikusi" />
+    <input type="submit" name="action" value="erabiltzailearen datuak aldatu" />
 </form>

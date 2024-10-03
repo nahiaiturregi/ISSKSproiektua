@@ -47,7 +47,7 @@ if(isset($_GET['user'])){
             		exit();
        		}
         	if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
-            		echo "Data formatu baligabea(uuuu-hh-ee).";
+            		echo "Data formatu baliogabea(uuuu-hh-ee).";
             		exit();
         	}
         	
@@ -59,6 +59,58 @@ if(isset($_GET['user'])){
 			jaiotze_data='$jaiotze_data',
 			email='$email'
 			WHERE id='$user_id'";
+			
+		if (mysqli_query($conn, $query)) {
+            		echo "Datuak eguneratu dira.";
+        	} else {
+           		 echo "Errorea: " . mysqli_error($conn);
+        	}
+	}
+}else if(isset($_SESSION['user'])){
+	$user_id=$_SESSION['user'];
+	
+	$query="SELECT * FROM usuarios WHERE nombre='$user_id'";
+	$result=mysqli_query($conn, $query);
+	
+	//convierte el resultado de la consulta en un array asociativo: un array donde cada campo tiene un nombre clave ('nombre', 'email',etc.):
+	$usuario=mysqli_fetch_assoc($result); 
+
+	if(!$usuario){
+		echo "Erabiltzaile ez aurkitua.";
+		exit();
+	}
+	
+	//Formularioa prozesatu datuak aldatzeko
+	//Se extrae los datos enviados en el formulario a través de $_POST
+	if($_SERVER['REQUEST_METHOD']=='POST'){
+		$nombre=$_POST['nombre'];
+		$nan=$_POST['nan'];
+		$telefonoa=$_POST['telefonoa'];
+		$jaiotze_data=$_POST['jaiotze_data'];
+		$email=$_POST['email'];
+		
+		//Datuak balioztatu
+		if(!preg_match("/^[0-9]{8}-[A-Z]$/", $nan)){
+			echo "NAN formatu baliogabea.";
+			exit();
+		}
+		if (!preg_match("/^[0-9]{9}$/", $telefonoa)) {
+           		echo "9 digituko telefonoa sartu behar duzu.";
+            		exit();
+       		}
+        	if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
+            		echo "Data formatu baliogabea(uuuu-hh-ee).";
+            		exit();
+        	}
+        	
+        	//Datu basean erabiltzailearen datuak eguneratu
+		$query="UPDATE usuarios SET
+			nombre='$nombre',
+			nan='$nan',
+			telefonoa='$telefonoa',
+			jaiotze_data='$jaiotze_data',
+			email='$email'
+			WHERE nombre='$user_id'";
 			
 		if (mysqli_query($conn, $query)) {
             		echo "Datuak eguneratu dira.";
