@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="date" name ="date" placeholder="Jaiotze data">
+                    <input type="jaiotze_data" name ="jaiotze_data" placeholder="Jaiotze data">
                     <i class="fa-solid fa-calendar"> </i>
                 </div>
 
@@ -59,16 +59,22 @@
                 strlen($_POST['text']) >= 1 &&
                 strlen($_POST['email']) >= 1 &&
                 strlen($_POST['phone']) >= 1 &&
-                strlen($_POST['date']) >= 1 
+                strlen($_POST['jaiotze_data']) >= 1 
             ) {
         
                 $name = trim($_POST['name']);
                 $text = trim($_POST['text']);
                 $email = trim($_POST['email']);
                 $phone = trim($_POST['phone']);
-                $date = date("y/m/d");
-                $kontsulta = "INSERT INTO datuak(izena, nan, email, telefonoa, jaiotzedat)
-                            VALUES('$name', '$text', '$email', '$phone', '$date')";
+                $jaiotze_data = trim($_POST['jaiotze_data']);
+                
+                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
+    			echo "Data formatu baliogabea(uuuu-hh-ee).";
+  			exit();	
+		}
+
+                $kontsulta = "INSERT INTO datuak(izena, nan, email, telefonoa, jaiotze_data)
+                            VALUES('$name', '$text', '$email', '$phone', '$jaiotze_data')";
                 $emaitza = mysqli_query($konexioa, $kontsulta);
                 if($emaitza) {
                     ?>
