@@ -69,7 +69,7 @@ if(isset($_GET['user'])){
 }else if(isset($_SESSION['user'])){
 	$user_id=$_SESSION['user'];
 	
-	$query="SELECT * FROM usuarios WHERE nombre='$user_id'";
+	$query="SELECT * FROM usuarios WHERE id='$user_id'";
 	$result=mysqli_query($conn, $query);
 	
 	//convierte el resultado de la consulta en un array asociativo: un array donde cada campo tiene un nombre clave ('nombre', 'email',etc.):
@@ -110,7 +110,7 @@ if(isset($_GET['user'])){
 			telefonoa='$telefonoa',
 			jaiotze_data='$jaiotze_data',
 			email='$email'
-			WHERE nombre='$user_id'";
+			WHERE id='$user_id'";
 			
 		if (mysqli_query($conn, $query)) {
             		echo "Datuak eguneratu dira.";
