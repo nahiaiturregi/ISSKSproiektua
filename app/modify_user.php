@@ -28,7 +28,7 @@ if(isset($_GET['user'])){
 		exit();
 	}
 	
-	//Formularioa prozesatu datuak aldatzeko
+	//Formularioa prozesatu datuak aldatzeko __
 	//Se extrae los datos enviados en el formulario a través de $_POST
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 		$nombre=$_POST['nombre'];
