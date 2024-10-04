@@ -6,12 +6,10 @@
     <title>Formularioa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-</script>
-
 </head>
 <body>
     <h2>Ongi etorri</h2>
-    <form method="post" autocomplete="off">
+    <form method="post" autocomplete="off" name="formularioa">
         <div class="input-group">
 
                 <div class="input-container">
@@ -20,8 +18,13 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="text" name ="text" placeholder="NAN-a">
+                    <input type="text" name ="nan" placeholder="NAN-a">
                     <i class="fa-solid fa-user-secret"> </i>
+                </div>
+
+                <div class="input-container">
+                    <input type="password" name ="password" placeholder="Pasahitza">
+                    <i class="fa-solid fa-user-lock"> </i>
                 </div>
 
                 <div class="input-container">
@@ -35,13 +38,18 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="email" name ="email" placeholder="Email-a" onclick="emailbalidatu()">
+                    <input type="email" name ="email" placeholder="Email-a">
                     <i class="fa-solid fa-envelope"> </i>
                 </div>
 
                 <input type="submit" name="send" class="btn" value="Bidali">
         </div>
     </form>
+    <script>
+        function NANbalidatu() {
+            
+        }
+    </script>
 
     <?php
 
@@ -56,25 +64,27 @@
 
             if(
                 strlen($_POST['name']) >= 1 &&
-                strlen($_POST['text']) >= 1 &&
+                strlen($_POST['nan']) >= 1 &&
                 strlen($_POST['email']) >= 1 &&
                 strlen($_POST['phone']) >= 1 &&
-                strlen($_POST['jaiotze_data']) >= 1 
+                strlen($_POST['jaiotze_data']) >= 1 &&
+                strlen($_POST['password']) >= 1 
             ) {
         
                 $name = trim($_POST['name']);
-                $text = trim($_POST['text']);
+                $text = trim($_POST['nan']);
                 $email = trim($_POST['email']);
                 $phone = trim($_POST['phone']);
                 $jaiotze_data = trim($_POST['jaiotze_data']);
+                $password = trim($_POST['password']);
                 
                 if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
     			echo "Data formatu baliogabea(uuuu-hh-ee).";
   			exit();	
 		}
 
-                $kontsulta = "INSERT INTO datuak(izena, nan, email, telefonoa, jaiotze_data)
-                            VALUES('$name', '$text', '$email', '$phone', '$jaiotze_data')";
+                $kontsulta = "INSERT INTO usuarios(id,nombre, nan, email, telefonoa, jaiotze_data, pasahitza)
+                            VALUES(2,'$name', '$text', '$email', '$phone', '$jaiotze_data', '$password')";
                 $emaitza = mysqli_query($konexioa, $kontsulta);
                 if($emaitza) {
                     ?>

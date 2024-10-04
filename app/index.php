@@ -5,6 +5,9 @@ if (isset($_POST['action'])) {
     $action = $_POST['action'];
     
     switch ($action) {
+        case 'erregistratu':
+            header("Location: register.php");
+            exit();
         case 'identifikatu':
             header("Location: login.php");
             exit();
@@ -27,6 +30,7 @@ if (isset($_POST['action'])) {
 <h1>Ongi etorri!</h1>
 <p>Aukeratu zer egin nahi duzun:</p>
 <form method="POST" action="index.php">
+    <input type="submit" name="action" value="erregistratu" />
     <input type="submit" name="action" value="identifikatu" />
     <input type="submit" name="action" value="zerrenda ikusi" />
     <input type="submit" name="action" value="erabiltzailearen datuak aldatu" />
