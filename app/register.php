@@ -45,11 +45,6 @@
                 <input type="submit" name="send" class="btn" value="Bidali">
         </div>
     </form>
-    <script>
-        function NANbalidatu() {
-            
-        }
-    </script>
 
     <?php
 
@@ -72,19 +67,45 @@
             ) {
         
                 $name = trim($_POST['name']);
-                $text = trim($_POST['nan']);
+                $nan = trim($_POST['nan']);
                 $email = trim($_POST['email']);
                 $phone = trim($_POST['phone']);
                 $jaiotze_data = trim($_POST['jaiotze_data']);
                 $password = trim($_POST['password']);
                 
+                if (!preg_match("/^\d{8}-[A-Z]$/", $nan)) {
+                    echo "DNI formatu baliogabea. 8 zenbaka, gidoia eta letra bat izan behar ditu.";
+                    exit();
+                }
+                list($zenbakiak, $letra) = explode('-', $nan);
+                $dni = (int)$zenbakiak;
+                $letraIndex = $dni % 23;
+                $letrak = "TRWAGMYFPDXBNJZSQVHLCKET";
+                $letrakalkulatua = $letrak[$letraIndex];
+                if ($letra !== $letrakalkulatua) {
+                    echo "DNI letra ez da zuzena. Letra hau izango litzateke: $letrakalkulatua.";
+                    exit();
+                }
+                
                 if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
-    			echo "Data formatu baliogabea(uuuu-hh-ee).";
-  			exit();	
-		}
+    			    echo "Data formatu baliogabea(uuuu-hh-ee).";
+  			        exit();	
+		        }
 
-                $kontsulta = "INSERT INTO usuarios(id,nombre, nan, email, telefonoa, jaiotze_data, pasahitza)
-                            VALUES(2,'$name', '$text', '$email', '$phone', '$jaiotze_data', '$password')";
+                if (!preg_match("/^\d{9}$/", $phone)) {
+                    echo "Telefono zenbaki baliogabea";
+                   exit();
+                }
+
+                if (!preg_match("/^.+@.+\..+$/", $email)) {
+                    echo "Posta elektroniko baliogabea";
+                    exit();
+                }
+                
+                
+
+                $kontsulta = "INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza)
+                            VALUES('$name', '$nan', '$email', '$phone', '$jaiotze_data', '$password')";
                 $emaitza = mysqli_query($konexioa, $kontsulta);
                 if($emaitza) {
                     ?>
