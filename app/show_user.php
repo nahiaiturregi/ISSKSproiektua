@@ -13,7 +13,7 @@ if(!$conn){
 if (isset($_GET['user'])) {
     $user = $_GET['user'];
 
-    $sql = "SELECT nombre, nan, telefonoa, jaiotze_data, email, pasahitza FROM usuarios WHERE id = $user";
+    $sql = "SELECT * FROM usuarios WHERE id = $user";
     $result = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($result) > 0){
@@ -24,6 +24,10 @@ if (isset($_GET['user'])) {
             echo "Jaiotze-data: " . $row['jaiotze_data'] . "<br>";
             echo "Email: " . $row['email'] . "<br>";
             echo "Pasahitza: " . $row['pasahitza'] . "<br>";
+            $id = $row['id'];
+            echo '<a href="modify_user.php?user=' . $id . '" style="text-decoration: none;">';
+            echo '<button type="button">Datuak aldatu</button>';
+            echo '</a>';
         }
     } else {
         echo "Ez da erabiltzailea aurkitu.";
