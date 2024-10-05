@@ -25,7 +25,7 @@
             $row = mysqli_fetch_assoc($result);
             $id = $row['id'];
             $_SESSION['user'] = $id;
-            header("Location: /");
+            header("Location: show_user.php?user=$id");
             exit();
         } else {
             echo "Invalid erabiltzailea or pasahitza.";
