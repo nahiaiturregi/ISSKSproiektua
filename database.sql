@@ -52,11 +52,14 @@ CREATE TABLE `FunkoPop` (
 -- Volcado de datos para la tabla `usuarios`
 --
 INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza) VALUES 
-  ('admin', '66666666-Z', 644646464, '2004-04-02', 'admin@gmail.com', '1234');
+  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234');
 
 INSERT INTO `FunkoPop` VALUES
-  (1, 'Will', 'Stranger Things', 'Handia', 30.99),
-  (2, 'Hange Zoe', 'Attack on Titan', 'Ertaina', 16.99);
+  (101, 'Will', 'Stranger Things', 'Handia', 30.99),
+  (190, 'Hange Zoe', 'Attack on Titan', 'Ertaina', 16.99),
+  (333, 'Mikasa Ackerman', 'Attack on Titan', 'Txikia', 5.99),
+  (495, 'Homer Simpson', 'The Simpsons', 'Ertaina', 16.99),
+  (666, 'Darth Vader', 'Star Wars', 'Handia', 30.99);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

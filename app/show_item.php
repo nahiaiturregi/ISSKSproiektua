@@ -19,7 +19,7 @@ if (isset($_GET['item'])) {
     if (mysqli_num_rows($result) > 0) {
         // Mostrar los detalles del ítem
         $row = mysqli_fetch_assoc($result);
-        echo "<h1>Detalles del Funko Pop</h1>";
+        echo "<h1>Figuraren xehetasunak:</h1>";
         echo "<p><strong>ID:</strong> " . $row['id'] . "</p>";
         echo "<p><strong>Izena:</strong> " . $row['izena'] . "</p>";
         echo "<p><strong>Mota:</strong> " . $row['mota'] . "</p>";
