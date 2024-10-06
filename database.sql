@@ -34,7 +34,8 @@ CREATE TABLE `usuarios` (
   `telefonoa` int(9) NOT NULL,
   `jaiotze_data` date NOT NULL,
   `email` text NOT NULL,
-  `pasahitza` text NOT NULL
+  `pasahitza` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `FunkoPop` (
@@ -42,35 +43,20 @@ CREATE TABLE `FunkoPop` (
    `izena` text NOT NULL,
    `mota` text NOT NULL,
    `tamaina` text NOT NULL, 
-   `prezioa` float NOT NULL
+   `prezioa` float NOT NULL,
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 	
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
-INSERT INTO `usuarios`VALUES
-  (1, 'Admin', '66666666-Z', 644646464, 2004-04-02, 'admin@gmail.com', '1234');
-
+INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza) VALUES 
+  ('admin', '66666666-Z', 644646464, '2004-04-02', 'admin@gmail.com', '1234');
 
 INSERT INTO `FunkoPop` VALUES
   (1, 'Will', 'Stranger Things', 'Handia', 30.99),
   (2, 'Hange Zoe', 'Attack on Titan', 'Ertaina', 16.99);
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
-COMMIT;
-
-ALTER TABLE `FunkoPop`
-	ADD PRIMARY KEY (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
