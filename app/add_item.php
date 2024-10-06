@@ -30,6 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
         exit();
     }
     else{
+        //Errepikatuta ez badago, elementu berria sartu
         $query = "INSERT INTO FunkoPop (id, izena, mota, tamaina, prezioa) VALUES ('$id', '$izena', '$mota', '$tamaina', '$prezioa')";
         $result = mysqli_query($conn, $query);
         if(!$result){
