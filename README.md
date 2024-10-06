@@ -8,7 +8,7 @@ Nahia Valiente Camiños
 ## Proiektua hedatzeko instrukzioak
 GitHub biltegia klonatu:
 ```bash
-$ git clone https://github.com/nahiaiturregi/docker-lamp.git
+$ git clone https://github.com/nahiaiturregi/ISSKSproiektua.git
 ```
 
 Terminalean klonatutako biltegiaren direktoriora joan.
