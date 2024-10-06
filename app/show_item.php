@@ -25,6 +25,7 @@ if (isset($_GET['item'])) {
         echo "<p><strong>Mota:</strong> " . $row['mota'] . "</p>";
         echo "<p><strong>Tamaina:</strong> " . $row['tamaina'] . "</p>";
         echo "<p><strong>Prezioa:</strong> $" . $row['prezioa'] . "</p>";
+        echo '<a href="modify_item.php?item=' .$row['id']. '">Editatu</a>';
         echo '<a href="items.php">Itzuli Funko Pop zerrendara</a>';
     } else {
         echo "<p>Ez da elementua aurkitu.</p>";
