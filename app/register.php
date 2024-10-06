@@ -1,3 +1,5 @@
+<!-- Fitxategi hau idazteko hurrengo bideoa jarraitu da: https://www.youtube.com/watch?v=VgLOIocrNq8 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +11,7 @@
 </head>
 <body>
     <h2>Ongi etorri</h2>
+    <!-- Formularioaren egitura sortu -->
     <form id="register_form" method="post" autocomplete="off" name="formularioa">
         <div class="input-group">
 
@@ -48,7 +51,7 @@
     </form>
 
     <?php
-
+        // Datu basearekin konektatu
         $hostname = "db";
         $username = "admin";
         $password = "test";
@@ -56,8 +59,10 @@
 
         $konexioa = mysqli_connect($hostname, $username, $password, $db);
         
+        // send botoia (Bidali) sakatzen bada begiratu
         if(isset($_POST['send'])) {
 
+            // Formularioaren eremu guztietan zerbait dagoela erantzunda begiratu, bestela mezu bat agertzen da
             if(
                 strlen($_POST['name']) >= 1 &&
                 strlen($_POST['nan']) >= 1 &&
@@ -66,7 +71,7 @@
                 strlen($_POST['jaiotze_data']) >= 1 &&
                 strlen($_POST['password']) >= 1 
             ) {
-        
+                // Erantzunen testua sinplifikatzeko, adibidez soberako espazioak kendu etab.
                 $name = trim($_POST['name']);
                 $nan = trim($_POST['nan']);
                 $email = trim($_POST['email']);
@@ -74,6 +79,7 @@
                 $jaiotze_data = trim($_POST['jaiotze_data']);
                 $password = trim($_POST['password']);
                 
+                // DNIak 8 zenbaki, gidoia eta letra bat duela eta letra zuzena dela konprobatu
                 if (!preg_match("/^\d{8}-[A-Z]$/", $nan)) {
                     echo "DNI formatu baliogabea. 8 zenbaka, gidoia eta letra bat izan behar ditu.";
                     exit();
@@ -88,26 +94,29 @@
                     exit();
                 }
                 
+                // Data urtea, hilabetea eta egun formatuan dagoela konprobatu
                 if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
     			    echo "Data formatu baliogabea(uuuu-hh-ee).";
   			        exit();	
 		        }
 
+                // Telefono zenbakiak 9 digitu duela egiaztatu
                 if (!preg_match("/^\d{9}$/", $phone)) {
                     echo "Telefono zenbaki baliogabea";
                    exit();
                 }
 
+                // Email-ak [testua + @ + testua + . + testua] formatua duela konprobatu
                 if (!preg_match("/^.+@.+\..+$/", $email)) {
                     echo "Posta elektroniko baliogabea";
                     exit();
                 }
                 
-                
-
+                // Datu basean formularioko erantzunak sartu 
                 $kontsulta = "INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza)
                             VALUES('$name', '$nan', '$email', '$phone', '$jaiotze_data', '$password')";
                 $emaitza = mysqli_query($konexioa, $kontsulta);
+                // Emaitza bat badago kontsultari erabiltzailea erregistratzen da, bestela errore ematen du
                 if($emaitza) {
                     ?>
                         <h3 class="success">Zure erabiltzailea sisteman erregistratu da</h3>

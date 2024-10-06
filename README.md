@@ -41,3 +41,7 @@ Amaitzerakoan zerbitzuak gelditzeko:
 ```bash
 $ docker-compose down
 ```
+
+## Erabilitako baliabideak
+Proiektua aurrera eramateko erabilitako baliabideak:
+  - register.php artxiboa idazteko: https://www.youtube.com/watch?v=VgLOIocrNq8
