@@ -6,50 +6,60 @@ $username="admin";
 $password="test";
 $db="database";
 
+//Datu-basera konektatu
 $conn=mysqli_connect($hostname, $username, $password, $db);
+
+//Konexioa huts egitekotan, errore-mezua agertu eta amaitu scripta
 if($conn->connect_error){
 	die("Huts egindako konexioa: " . $conn->connect_error);
 }
 
+//Egiaztatu ea URLan aldatuko den erabiltzailearen "user_id"-a bidali den, eta ea saioa aktibo dagoen erabiltzaileak saioa hasi egin duela ziurtatzeko
 if(isset($_GET['user']) && isset($_SESSION['user'])){
+	//URltik aldatuko den erabiltzailearen IDa lortu:
 	$user_id=$_GET['user'];
 	
-	//Obtener los datos actuales del usuario
+	//Erabiltzailearen uneko datuak lortzeko kontsulta (IDaren arabera)
 	$query="SELECT * FROM usuarios WHERE id='$user_id'";
 	$result=mysqli_query($conn, $query);
 	
-	//convierte el resultado de la consulta en un array asociativo: un array donde cada campo tiene un nombre clave ('nombre', 'email',etc.):
+	//Kontsultaren emaitza array asoziatiboan bihurtu (eremu bakoitzak gako-izen bat duen array-a):
 	$usuario=mysqli_fetch_assoc($result); 
-
+	
+	//Erabiltzailea aurkitzen ez bada, mezua pantailaratu eta script amaitu:
 	if(!$usuario){
 		echo "Erabiltzaile ez aurkitua.";
 		exit();
 	}
 	
-	//Formularioa prozesatu datuak aldatzeko __
-	//Se extrae los datos enviados en el formulario a través de $_POST
+	//Formularioa prozesatu datuak aldatzeko
 	if($_SERVER['REQUEST_METHOD']=='POST'){
+		//Formularioan $_POST bidez bidalitako datuak atera:
 		$nombre=$_POST['nombre'];
 		$nan=$_POST['nan'];
 		$telefonoa=$_POST['telefonoa'];
 		$jaiotze_data=$_POST['jaiotze_data'];
 		$email=$_POST['email'];
 		
-		//Datuak balioztatu
+		//NANaren formatu zuzena dela egiaztatu:
 		if(!preg_match("/^[0-9]{8}-[A-Z]$/", $nan)){
 			echo "NAN formatu baliogabea.";
 			exit();
 		}
+		
+		//Telefonoaren formatu zuzena dela egiaztatu:
 		if (!preg_match("/^[0-9]{9}$/", $telefonoa)) {
            		echo "9 digituko telefonoa sartu behar duzu.";
             		exit();
        		}
+       		
+       		//Jaiotze-dataren formatu zuzena dela egiaztatu:
         	if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
             		echo "Data formatu baliogabea(uuuu-hh-ee).";
             		exit();
         	}
         	
-        	//Datu basean erabiltzailearen datuak eguneratu
+        	//Erabiltzailearen datuak datu-basean eguneratu:
 		$query="UPDATE usuarios SET
 			nombre='$nombre',
 			nan='$nan',
@@ -57,18 +67,21 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
 			jaiotze_data='$jaiotze_data',
 			email='$email'
 			WHERE id='$user_id'";
-			
+		
+		//Eguneratze-kontsulta gauzatu. Arrakastatsua bada, berrespen-mezu bat erakutsi:
 		if (mysqli_query($conn, $query)) {
             		echo "Datuak eguneratu dira.";
         	} else {
+        		//Eguneratzerakoan errore baten bat badago, errorea erakutsi:
            		 echo "Errorea: " . mysqli_error($conn);
         	}
 	}
 } else {
+	//Erabiltzaile bat eman en bada edo saioa hasi ez bada, errore-mezu bat agertu:
 	echo "Ez da erabiltzailerik zehaztu.";
 	exit();
 }
-
+//Datu-baserako konexioa itxi
 mysqli_close($conn);
 ?>
 
