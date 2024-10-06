@@ -42,6 +42,7 @@ if(!$result){
                 echo "<td>" .$row['id']. "</td>";
                 echo "<td>" .$row['izena']. "</td>";
                 echo "<td>";
+                echo "<a href='show_item.php?item=" . $row['id'] . "'>Ikusi xehetasunak</a>"; 
                 echo "<a id='item_delete_submit" . $row['id'] . "' href='delete_item.php?item=" . $row["id"] . "' onclick='return confirm(\"Elementu hau ezabatu nahi duzu?\");'>Ezabatu</a>";
                 echo "</td>";
                 echo "</tr>";
