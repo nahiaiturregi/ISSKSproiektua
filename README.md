@@ -1,19 +1,43 @@
+## Taldekideak
+Laura Meihua Caballero Pascual
+Nahia Iturregi Artiñano
+Unai Rodríguez Cubillo
+Eider Yan Santamaria Salvador
+Nahia Valiente Camiños
 
-# Docker LAMP
-Linux + Apache + MariaDB (MySQL) + PHP 7.2 on Docker Compose. Mod_rewrite enabled by default.
-
-## Instructions
-
-Enter the following command to start your containers:
+## Proiektua hedatzeko instrukzioak
+GitHub biltegia klonatu:
 ```bash
-$ docker-compose up -d
+$ git clone https://github.com/nahiaiturregi/docker-lamp.git
 ```
 
-To stop them, use this:
+Terminalean klonatutako biltegiaren direktoriora joan.
+
+Entrega_1 adarrera aldatu:
 ```bash
-$ docker-compose stop
+$ git checkout entrega_1
 ```
 
-Feel free to make pull requests and help to improve this.
+'web' irudia eraiki:
+```bash
+$ docker build -t="web"
+```
 
-If you are looking for phpMyAdmin, take a look at [this](https://github.com/celsocelante/docker-lamp/issues/2).
+Zerbitzuak hedatu docker-compose erabiliz:
+```bash
+$ docker-compose up
+```
+
+Beharrezko datu-basea konfiguratzeko:
+  1. phpMyAdmin bisitatu hurrengo URL-a erabiliz: **http://localhost:8890/**
+  2. Identifikatu:
+     - Erabiltzailea: admin
+     - Pasahitza: test
+  3. "database" sakatu, "import" aukeratu eta biltegian dagoen 'database.sql' artxiboa hautatu.
+
+Web sistemako 'home' orrialdea bisitatzeko: **http://localhost:81/**
+
+Amaitzerakoan zerbitzuak gelditzeko:
+```bash
+$ docker-compose down
+```
