@@ -1,8 +1,8 @@
 ## Taldekideak
-Laura Meihua Caballero Pascual
-Nahia Iturregi Artiñano
-Unai Rodríguez Cubillo
-Eider Yan Santamaria Salvador
+Laura Meihua Caballero Pascual  
+Nahia Iturregi Artiñano  
+Unai Rodríguez Cubillo  
+Eider Yan Santamaria Salvador  
 Nahia Valiente Camiños
 
 ## Proiektua hedatzeko instrukzioak
