@@ -1,6 +1,7 @@
 <?php
-    session_start();
+    session_start(); //Sesioa hasi edo mantendu erabiltzailearen id-a gorde ahal izateko
 
+    //DB-arekin konexioa sortu
     $hostname = "db";
     $username = "admin";
     $password = "test";
@@ -11,12 +12,10 @@
         die("Database connection failed: " . $conn->connect_error);
     }
 
+    //Erabiltzailea eta pasahitza bidaltzen badira, datu basean dauden datuekin konparatuko dira
     if (isset($_POST['bidalita']) && $_POST['bidalita'] == '1') {
         $erabiltzailea = $_POST['erabiltzailea'];
         $pasahitza = $_POST['pasahitza'];
-
-        //$erabiltzailea = mysqli_real_escape_string($conn, $erabiltzailea);
-        //$pasahitza = mysqli_real_escape_string($conn, $pasahitza);
 
         $query = "SELECT * FROM usuarios WHERE nombre='$erabiltzailea' AND pasahitza='$pasahitza'";
         $result = mysqli_query($conn, $query);
@@ -50,6 +49,7 @@
         <input type="hidden" name="bidalita" value="0">
     </form>
     <script>
+        //Datuak hutsik bidaltzen ez direla egiaztatzeko
         function datuakEgiaztatu() {
             var erabiltzailea = document.login_form.erabiltzailea.value;
             var pasahitza = document.login_form.pasahitza.value;

@@ -1,9 +1,11 @@
 <?php
 session_start();
 
+//Botoiren bat sakatu bada, baldintza beteko da
 if (isset($_POST['action'])) {
     $action = $_POST['action'];
     
+    //Sakatutako botoia zein den arabera, dagokion orrira bideratu
     switch ($action) {
         case 'erregistratu':
             header("Location: register.php");
@@ -21,7 +23,6 @@ if (isset($_POST['action'])) {
             exit();
     
         default:
-            // Si la acción no es válida, redirigir al home
             header("Location: index.php");
             exit();
     }

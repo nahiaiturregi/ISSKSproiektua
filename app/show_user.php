@@ -1,4 +1,5 @@
 <?php
+//DB-arekin konexioa sortu
 $hostname = "db";
 $username = "admin";
 $password = "test";
@@ -10,6 +11,7 @@ if(!$conn){
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
+//Erabiltzailearen id-a URL-tik hartu eta erakutsi datuak
 if (isset($_GET['user'])) {
     $user = $_GET['user'];
 
