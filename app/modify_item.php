@@ -42,7 +42,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         WHERE id='$item_id'";
 
     if (mysqli_query($conn, $query)) {
-        echo "Datuak eguneratu dira.";
+        header("Location: show_item.php?item=$item_id");
+        exit();
     } else {
         echo "Errorea: " . mysqli_error($conn);
     }

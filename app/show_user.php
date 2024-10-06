@@ -31,6 +31,9 @@ if (isset($_GET['user'])) {
             echo '<button type="button">Datuak aldatu</button>';
             echo '</a>';
         }
+        echo '<a href="/" style="text-decoration: none;">';
+        echo '<button type="button">Hasierara itzuli</button>';
+        echo '</a>';
     } else {
         echo "Ez da erabiltzailea aurkitu.";
     }

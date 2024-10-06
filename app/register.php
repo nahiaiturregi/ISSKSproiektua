@@ -9,7 +9,7 @@
 </head>
 <body>
     <h2>Ongi etorri</h2>
-    <form method="post" autocomplete="off" name="formularioa">
+    <form id="register_form" method="post" autocomplete="off" name="formularioa">
         <div class="input-group">
 
                 <div class="input-container">
@@ -42,7 +42,8 @@
                     <i class="fa-solid fa-envelope"> </i>
                 </div>
 
-                <input type="submit" name="send" class="btn" value="Bidali">
+                <input type="submit" id="register_submit" name="send" class="btn" value="Bidali">
+                <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
         </div>
     </form>
 

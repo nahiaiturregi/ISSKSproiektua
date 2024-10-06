@@ -37,7 +37,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
             die("Errorea kontsultan:" .mysqli_error($conn));
         } 
         else{
-            echo "<script>alert('Elementua gehitu da.');</script>";
+            header("Location: /");
+            exit();
         }  
     }
     mysqli_close($conn);
@@ -63,6 +64,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
         <label>Prezioa:</label><br>
         <input type="text" name="prezioa"><br>
         <input type="button" name="item_add_submit" id="item_add_submit" value="Gehitu" onclick="datuakEgiaztatu()">
+        <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
         <input type="hidden" name="bidalita" value="0">
     </form>
     <script>

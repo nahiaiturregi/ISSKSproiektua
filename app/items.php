@@ -44,20 +44,28 @@ if(!$result){
                 echo "<td>" .$row['izena']. "</td>";
                 echo "<td>";
                 //Esteka "show_item.php"-ra birbideratzeko, hautatutako itemaren IDa pasatuz:
-                echo "<a href='show_item.php?item=" . $row['id'] . "'>Ikusi xehetasunak</a>"; 
-                echo "<a id='item_delete_submit" . $row['id'] . "' href='delete_item.php?item=" . $row["id"] . "' onclick='return confirm(\"Elementu hau ezabatu nahi duzu?\");'>Ezabatu</a>";
+                echo "<form method='get' action='show_item.php'>";
+                    echo "<input type='hidden' name='item' value='" . $row['id'] . "'>";
+                    echo "<button type='submit'>Ikusi xehetasunak</button>";
+                echo "</form>";
+                echo "</td>";
+                echo "<td>";
+                echo "<form method='get' action='delete_item.php'>";
+                    echo "<input type='hidden' name='item' value='" . $row['id'] . "'>";
+                    echo "<button type='submit'>Ezabatu</button>";
+                echo "</form>";
                 echo "</td>";
                 echo "</tr>";
             }
-        }
-        else{
+        } else {
             echo "<tr><td>Ez dago itemik</td></tr>";
         }
         
         mysqli_close($conn);
         ?>
     </table>
+    <form method='post' action='/'>
+        <button type='submit'>Hasierara itzuli</button>
+    </form>
 </body>
 </html>
-
-  

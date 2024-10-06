@@ -46,6 +46,7 @@
         <label>Pasahitza:</label><br>
         <input type="password" name="pasahitza"><br>
         <input type="button" name="login_submit" id="login_submit" value="bidali" onclick="datuakEgiaztatu()">
+        <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
         <input type="hidden" name="bidalita" value="0">
     </form>
     <script>

@@ -70,11 +70,12 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
 		
 		//Eguneratze-kontsulta gauzatu. Arrakastatsua bada, berrespen-mezu bat erakutsi:
 		if (mysqli_query($conn, $query)) {
-            		echo "Datuak eguneratu dira.";
-        	} else {
-        		//Eguneratzerakoan errore baten bat badago, errorea erakutsi:
-           		 echo "Errorea: " . mysqli_error($conn);
-        	}
+            header("Location: show_user.php?user=$user_id");
+			exit();
+        } else {
+			//Eguneratzerakoan errore baten bat badago, errorea erakutsi:
+           	echo "Errorea: " . mysqli_error($conn);
+        }
 	}
 } else {
 	//Erabiltzaile bat eman en bada edo saioa hasi ez bada, errore-mezu bat agertu:

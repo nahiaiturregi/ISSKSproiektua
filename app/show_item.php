@@ -32,10 +32,16 @@ if (isset($_GET['item'])) {
         echo "<p><strong>Mota:</strong> " . $row['mota'] . "</p>";
         echo "<p><strong>Tamaina:</strong> " . $row['tamaina'] . "</p>";
         echo "<p><strong>Prezioa:</strong> $" . $row['prezioa'] . "</p>";
-        //Itema editzteko fitxategira daraman esteka erakutsi:
-        echo '<a href="modify_item.php?item=' .$row['id']. '">Editatu</a>';
+        //Itema editatzeko fitxategira daraman esteka erakutsi:
+        echo "<form method='get' action='modify_item.php'>";
+            echo "<input type='hidden' name='item' value='" . $row['id'] . "'>";
+            echo "<button type='submit'>Editatu</button>";
+        echo "</form>";
+        echo "<p>   </p>";
         //Zerrendara itzultzeko esteka erakutsi:
-        echo '<a href="items.php">Itzuli Funko Pop zerrendara</a>';
+        echo "<form method='post' action='items.php'>";
+                echo "<button type='submit'>Itzuli zerrendara</button>";
+        echo "</form>";
     } else {
         echo "<p>Ez da FunkoPop-a aurkitu.</p>";
     }
