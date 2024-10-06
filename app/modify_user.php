@@ -96,11 +96,11 @@ mysqli_close($conn);
 <h2>Erabiltzailearen datuak aldatu</h2>
 
 <form id="user_modify_form" action="modify_user.php?user=<?php echo $user_id; ?>" method="POST">
-    Nombre: <input type="text" name="nombre" value="<?php echo $usuario['nombre']; ?>" required><br>
+    Izena: <input type="text" name="nombre" value="<?php echo $usuario['nombre']; ?>" required><br>
     NAN: <input type="text" name="nan" value="<?php echo $usuario['nan']; ?>" pattern="[0-9]{8}-[A-Z]" required><br>
     Telefonoa: <input type="text" name="telefonoa" value="<?php echo $usuario['telefonoa']; ?>" pattern="[0-9]{9}" required><br>
     Jaiotze-data: <input type="date" name="jaiotze_data" value="<?php echo $usuario['jaiotze_data']; ?>" required><br>
-    Correo Electrónico: <input type="email" name="email" value="<?php echo $usuario['email']; ?>" required><br>
+    Posta elektronikoa: <input type="email" name="email" value="<?php echo $usuario['email']; ?>" required><br>
     <input id="user_modify_submit" type="submit" value="Aldaketak gorde">
 </form>
 
