@@ -12,7 +12,7 @@ if(!$conn){
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
-//Formularioa bete ondoren datuak sartu.
+//Formularioa bete ondoren datuak sartu
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['bidalita'] == '1'){
     //Lortu datuak
     $id = $_POST['id'];
@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
     $tamaina = $_POST['tamaina'];
     $prezioa = $_POST['prezioa'];
 
-    //ID errepikatuta dagoen egiaztatu.
+    //ID errepikatuta dagoen egiaztatu
     $query = "SELECT * FROM FunkoPop WHERE id='$id'";
     $result = mysqli_query($conn, $query);
 
