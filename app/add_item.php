@@ -12,7 +12,7 @@ if(!$conn){
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
-//Formularioa bete ondoren datuak sartu
+//Formularioa bete ondoren datuak sartu.
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['bidalita'] == '1'){
     //Lortu datuak
     $id = $_POST['id'];
