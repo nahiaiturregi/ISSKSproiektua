@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="text" name ="nan" placeholder="NAN-a (12345678-A)">
+                    <input type="text" name ="nan" placeholder="NAN-a (12345678-X)">
                     <i class="fa-solid fa-user-secret"> </i>
                 </div>
 
@@ -33,12 +33,12 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="tel" name ="phone" placeholder="Telefono zenbakia (123456789)">
+                    <input type="tel" name ="phone" placeholder="Telefonoa (123456789)">
                     <i class="fa-solid fa-phone"> </i>
                 </div>
 
                 <div class="input-container">
-                    <input type="email" name ="email" placeholder="Email-a (adibidea@xxxxx.com)">
+                    <input type="email" name ="email" placeholder="Email (adibidea@xxxxx.com)">
                     <i class="fa-solid fa-envelope"> </i>
                 </div>
 
