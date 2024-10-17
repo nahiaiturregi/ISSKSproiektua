@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="text" name ="nan" placeholder="NAN-a">
+                    <input type="text" name ="nan" placeholder="NAN-a (12345678-A)">
                     <i class="fa-solid fa-user-secret"> </i>
                 </div>
 
@@ -28,17 +28,17 @@
                 </div>
 
                 <div class="input-container">
-                    <input type="jaiotze_data" name ="jaiotze_data" placeholder="Jaiotze data">
+                    <input type="jaiotze_data" name ="jaiotze_data" placeholder="Jaiotze data (uuuu-hh-ee)">
                     <i class="fa-solid fa-calendar"> </i>
                 </div>
 
                 <div class="input-container">
-                    <input type="tel" name ="phone" placeholder="Telefono zenbakia">
+                    <input type="tel" name ="phone" placeholder="Telefono zenbakia (123456789)">
                     <i class="fa-solid fa-phone"> </i>
                 </div>
 
                 <div class="input-container">
-                    <input type="email" name ="email" placeholder="Email-a">
+                    <input type="email" name ="email" placeholder="Email-a (adibidea@xxxxx.com)">
                     <i class="fa-solid fa-envelope"> </i>
                 </div>
 
