@@ -17,9 +17,9 @@
             $jaiotze_data = $_POST['jaiotze_data'];
             $password = $_POST['password'];
 
-            $kontsulta = "INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES('$name', '$nan', '$email', '$phone', '$jaiotze_data', '$password')";
-            $emaitza = mysqli_query($konexioa, $kontsulta);
-            if($emaitza) {
+            $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
+            $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $password);
+            if($stmt->execute()) {
                 echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
             } else {
                 echo "<h3 class='error'>Errore bat egon da</h3>";

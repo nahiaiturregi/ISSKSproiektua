@@ -20,8 +20,10 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
 	$user_id=$_GET['user'];
 	
 	//Erabiltzailearen uneko datuak lortzeko kontsulta (IDaren arabera)
-	$query="SELECT * FROM usuarios WHERE id='$user_id'";
-	$result=mysqli_query($conn, $query);
+	$stmt = $conn->prepare("SELECT * FROM usuarios WHERE id= ?");
+	$stmt->bind_param("i",$user_id);
+	$stmt->execute();
+	$result = $stmt->get_result();
 	
 	//Kontsultaren emaitza array asoziatiboan bihurtu (eremu bakoitzak gako-izen bat duen array-a):
 	$usuario=mysqli_fetch_assoc($result); 
@@ -60,21 +62,17 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
         	}
         	
         	//Erabiltzailearen datuak datu-basean eguneratu:
-		$query="UPDATE usuarios SET
-			nombre='$nombre',
-			nan='$nan',
-			telefonoa='$telefonoa',
-			jaiotze_data='$jaiotze_data',
-			email='$email'
-			WHERE id='$user_id'";
-		
+		$stmt = $conn->prepare("UPDATE usuarios SET nombre= ?, nan= ?, telefonoa= ?, jaiotze_data= ?, email= ? WHERE id= ?");
+		$stmt->bind_param("ssissi", $nombre, $nan, $telefonoa, $jaiotze_data, $email, $user_id);
+		$stmt->execute();
+
 		//Eguneratze-kontsulta gauzatu. Arrakastatsua bada, berrespen-mezu bat erakutsi:
-		if (mysqli_query($conn, $query)) {
+		if ($stmt->execute()) {
             header("Location: show_user.php?user=$user_id");
 			exit();
         } else {
 			//Eguneratzerakoan errore baten bat badago, errorea erakutsi:
-           	echo "Errorea: " . mysqli_error($conn);
+           	echo "Errorea: " . $stmt->error;
         }
 	}
 } else {

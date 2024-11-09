@@ -17,14 +17,17 @@
         $erabiltzailea = $_POST['erabiltzailea'];
         $pasahitza = $_POST['pasahitza'];
 
-        $query = "SELECT * FROM usuarios WHERE nombre='$erabiltzailea' AND pasahitza='$pasahitza'";
-        $result = mysqli_query($conn, $query);
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre= ? AND pasahitza=?");
+        $stmt->bind_param("ss", $erabiltzailea, $pasahitza); 
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             $id = $row['id'];
             $_SESSION['user'] = $id;
             header("Location: show_user.php?user=$id");
+            $stmt->close();
             exit();
         } else {
             echo "Invalid erabiltzailea or pasahitza.";

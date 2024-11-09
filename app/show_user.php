@@ -15,8 +15,10 @@ if(!$conn){
 if (isset($_GET['user'])) {
     $user = $_GET['user'];
 
-    $sql = "SELECT * FROM usuarios WHERE id = $user";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
+    $stmt->bind_param("i", $user);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if(mysqli_num_rows($result) > 0){
         while ($row = mysqli_fetch_assoc($result)) {
@@ -37,6 +39,7 @@ if (isset($_GET['user'])) {
     } else {
         echo "Ez da erabiltzailea aurkitu.";
     }
+    $stmt->close();
 } else {
     echo "Ez da elementurik aukeratu.";
 }

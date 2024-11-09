@@ -18,8 +18,10 @@ if (isset($_GET['item'])) {
     $item_id = $_GET['item'];
 
     //FunkoPop taulan bilatu IDa duen itema
-    $sql = "SELECT * FROM FunkoPop WHERE id = $item_id";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
+    $stmt->bind_param("i", $item_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
  
     //Kontsultak emaitzaren bat itzuli duen egiaztatu, hau da, ID hori duen itema dagoen:
     if (mysqli_num_rows($result) > 0) {
@@ -45,6 +47,7 @@ if (isset($_GET['item'])) {
     } else {
         echo "<p>Ez da FunkoPop-a aurkitu.</p>";
     }
+    $stmt->close();
 } else {
     echo "<p>Ez da elementurik aukeratu.</p>";
 }

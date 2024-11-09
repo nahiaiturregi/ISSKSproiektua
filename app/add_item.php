@@ -22,25 +22,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
     $prezioa = $_POST['prezioa'];
 
     //ID errepikatuta dagoen egiaztatu
-    $query = "SELECT * FROM FunkoPop WHERE id='$id'";
-    $result = mysqli_query($conn, $query);
-
+    $stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
+    $stmt->bind_param("i", $id); 
+    $stmt->execute();
+    $result = $stmt->get_result();
     if(mysqli_num_rows($result) > 0){
         echo "<script>alert('ID hori duen elementua jada existitzen da.');</script>";
         exit();
     }
     else{
         //Errepikatuta ez badago, elementu berria sartu
-        $query = "INSERT INTO FunkoPop (id, izena, mota, tamaina, prezioa) VALUES ('$id', '$izena', '$mota', '$tamaina', '$prezioa')";
-        $result = mysqli_query($conn, $query);
-        if(!$result){
-            die("Errorea kontsultan:" .mysqli_error($conn));
-        } 
-        else{
+        $stmt = $conn->prepare("INSERT INTO FunkoPop (id, izena, mota, tamaina, prezioa) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssd", $id, $izena, $mota, $tamaina, $prezioa);
+        if(!$stmt->execute()){
+            die("Errorea kontsultan: " . $stmt->error);
+        } else {
             header("Location: /");
             exit();
-        }  
+        }
     }
+
+    $stmt->close();
     mysqli_close($conn);
 }
 ?>

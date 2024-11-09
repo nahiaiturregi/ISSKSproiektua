@@ -16,13 +16,15 @@ if (isset($_GET['item'])) {
 
     if (isset($_GET['confirm']) && $_GET['confirm'] === 'bai') {
         //Erabiltzaileak ezabaketa onartzen du
-        $sql = "DELETE FROM FunkoPop WHERE id = $item";
+        $stmt = $conn->prepare("DELETE FROM FunkoPop WHERE id = ?");
+        $stmt->bind_param("i", $item);
+        $stmt->execute();
 
-        if ($conn->query($sql) === TRUE) {
+        if ($stmt->execute()) {
             header("Location: items.php"); //items.php-ra bideratu
             exit();
         } else {
-            echo "Ezin izan da elementua ezabatu: " . $conn->error;
+            echo "Ezin izan da elementua ezabatu: " . $stmt->error;
         }
     } elseif (isset($_GET['confirm']) && $_GET['confirm'] === 'ez') {
         //Erabiltzaileak ezabaketa ez duela onartzen adierazi du

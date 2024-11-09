@@ -16,8 +16,10 @@ if (!$conn) {
 $item_id = $_GET['item'];
 
 // Item honen datuak lortu bere id-a erabiliz
-$query = "SELECT * FROM FunkoPop WHERE id = $item_id";
-$result = mysqli_query($conn, $query);
+$stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
+$stmt->bind_param("i",$item_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 //Kontsulta hau egin eta gero emaitzarik ez badira agertzen errore bat egon da, edo ez dago id honekin elementurik datu basean
 if (!$result || mysqli_num_rows($result) == 0) {
@@ -34,21 +36,19 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $prezioa=$_POST['prezioa'];
 
     //Datu basean erabiltzailearen datuak eguneratu
-    $query="UPDATE FunkoPop SET
-        izena='$izena',
-        mota='$mota',
-        tamaina='$tamaina',
-        prezioa='$prezioa'
-        WHERE id='$item_id'";
 
-    if (mysqli_query($conn, $query)) {
+    $stmt = $conn->prepare("UPDATE FunkoPop SET izena = ?, mota = ?, tamaina = ?, prezioa = ? WHERE id = ?");
+    $stmt->bind_param("sssdi", $izena, $mota, $tamaina, $prezioa, $item_id);
+
+    if ($stmt->execute()) {
         header("Location: show_item.php?item=$item_id");
         exit();
     } else {
-        echo "Errorea: " . mysqli_error($conn);
+        echo "Errorea: " . $stmt->error;
     }
 }
 
+$stmt->close();
 mysqli_close($conn);
 ?>
 

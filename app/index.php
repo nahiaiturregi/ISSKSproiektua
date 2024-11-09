@@ -5,7 +5,7 @@ session_start();
 if (isset($_POST['action'])) {
     $action = $_POST['action'];
     
-    //Sakatutako botoia zein den arabera, dagokion orrira bideratu
+    //Sakatutako botoia zein den arabera, dagokion orrira bideratu.
     switch ($action) {
         case 'erregistratu':
             header("Location: register.php");
