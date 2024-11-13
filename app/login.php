@@ -29,7 +29,7 @@
     $token_antiCSRF = sortuTokenAntiCSRF();
 
     //Erabiltzailea eta pasahitza bidaltzen badira, datu basean dauden datuekin konparatuko dira
-    if (isset($_POST['bidalita']) && $_POST['bidalita'] == '1') {
+    if ($_SERVER['REQUEST_METHOD']=='POST') {
         $jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
             echo "Ezin da sarbidea onartu.";
@@ -72,7 +72,6 @@
         <input type="password" name="pasahitza"><br>
         <input type="button" name="login_submit" id="login_submit" value="bidali" onclick="datuakEgiaztatu()">
         <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
-        <input type="hidden" name="bidalita" value="0">
         <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
     </form>
     <script>
@@ -83,7 +82,6 @@
             if (erabiltzailea == "" || pasahitza == "") {
                 window.alert("Erabiltzailea edo pasahitza hutsik dago");
             } else {
-                document.login_form.bidalita.value = '1';
                 document.login_form.submit();
             }
         }
