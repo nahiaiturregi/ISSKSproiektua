@@ -14,6 +14,22 @@ if($conn->connect_error){
 	die("Huts egindako konexioa: " . $conn->connect_error);
 }
 
+function sortuTokenAntiCSRF() {
+	if (empty($_SESSION['token_antiCSRF'])) {
+		$_SESSION['token_antiCSRF'] = bin2hex(random_bytes(32)); //Token bat sortu
+	}
+	return $_SESSION['token_antiCSRF'];
+}
+
+function egiaztatuTokenAntiCSRF($jasotako_tokena) {
+	if (isset($_SESSION['token_antiCSRF']) && hash_equals($_SESSION['token_antiCSRF'], $jasotako_tokena)) {
+		return true;
+	}
+	return false;
+}
+
+$token_antiCSRF = sortuTokenAntiCSRF();
+
 //Egiaztatu ea URLan aldatuko den erabiltzailearen "user_id"-a bidali den, eta ea saioa aktibo dagoen erabiltzaileak saioa hasi egin duela ziurtatzeko
 if(isset($_GET['user']) && isset($_SESSION['user'])){
 	//URltik aldatuko den erabiltzailearen IDa lortu:
@@ -36,6 +52,12 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
 	
 	//Formularioa prozesatu datuak aldatzeko
 	if($_SERVER['REQUEST_METHOD']=='POST'){
+		$jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
+        if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            echo "Ezin da sarbidea onartu.";
+            exit();
+        }
+
 		//Formularioan $_POST bidez bidalitako datuak atera:
 		$nombre=$_POST['nombre'];
 		$nan=$_POST['nan'];
@@ -100,6 +122,7 @@ mysqli_close($conn);
     Jaiotze-data: <input type="date" name="jaiotze_data" value="<?php echo $usuario['jaiotze_data']; ?>" required><br>
     Posta elektronikoa: <input type="email" name="email" value="<?php echo $usuario['email']; ?>" required><br>
     <input id="user_modify_submit" type="submit" value="Aldaketak gorde">
+	<input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
 </form>
 
 </body>

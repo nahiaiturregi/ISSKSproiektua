@@ -1,5 +1,5 @@
 <?php
-    session_start(); //Sesioa hasi edo mantendu erabiltzailearen id-a gorde ahal izateko
+    session_start(); //Saioa hasi beharrezko informazioa gordetzeko
 
     //DB-arekin konexioa sortu
     $hostname = "db";
@@ -12,8 +12,30 @@
         die("Database connection failed: " . $conn->connect_error);
     }
 
+    function sortuTokenAntiCSRF() {
+        if (empty($_SESSION['token_antiCSRF'])) {
+            $_SESSION['token_antiCSRF'] = bin2hex(random_bytes(32)); //Token bat sortu
+        }
+        return $_SESSION['token_antiCSRF'];
+    }
+
+    function egiaztatuTokenAntiCSRF($jasotako_tokena) {
+        if (isset($_SESSION['token_antiCSRF']) && hash_equals($_SESSION['token_antiCSRF'], $jasotako_tokena)) {
+            return true;
+        }
+        return false;
+    }
+
+    $token_antiCSRF = sortuTokenAntiCSRF();
+
     //Erabiltzailea eta pasahitza bidaltzen badira, datu basean dauden datuekin konparatuko dira
     if (isset($_POST['bidalita']) && $_POST['bidalita'] == '1') {
+        $jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
+        if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            echo "Ezin da sarbidea onartu.";
+            exit();
+        }
+
         $erabiltzailea = $_POST['erabiltzailea'];
         $pasahitza = $_POST['pasahitza'];
 
@@ -51,6 +73,7 @@
         <input type="button" name="login_submit" id="login_submit" value="bidali" onclick="datuakEgiaztatu()">
         <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
         <input type="hidden" name="bidalita" value="0">
+        <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
     </form>
     <script>
         //Datuak hutsik bidaltzen ez direla egiaztatzeko
