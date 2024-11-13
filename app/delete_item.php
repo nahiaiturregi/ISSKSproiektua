@@ -31,9 +31,11 @@ if (isset($_GET['item'])) {
         header("Location: items.php");
         exit();
     } else {
+        // item balio eskapatu, karakter bereziak html entitate seguruetan bihurtzeko
+        $item_escaped = htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
         // Konfirmazioa eskatu
         echo "<form method='get' action='delete_item.php'>";
-        echo "<input type='hidden' name='item' value='$item'>";
+        echo "<input type='hidden' name='item' value='$item_escaped'>";
         echo "Elementu hau ezabatu nahi duzu?";
         echo "<br>";
         echo "<button type='submit' name='confirm' value='ez'>Ez</button>";
