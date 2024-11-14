@@ -1,4 +1,9 @@
 <?php
+//X-Frame-Options segurtasunerako
+header("X-Frame-Options: SAMEORIGIN");
+//CSP segurtasunerako
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+
 //Datu basera konektatzeko
 $hostname = "db";
 $username = "admin";

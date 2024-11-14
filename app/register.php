@@ -1,9 +1,13 @@
 <?php
+	//X-Frame-Options segurtasunerako
+	header("X-Frame-Options: SAMEORIGIN");
+	//CSP segurtasunerako
+	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
         $hostname = "db";
         $username = "admin";
         $password = "test";
         $db = "database";
-
+        
         $konexioa = mysqli_connect($hostname, $username, $password, $db);
         if($konexioa->connect_error) {
             die("Datu basearekin konexioa ezin izan da egin: " . $konexioa->connect_error);
