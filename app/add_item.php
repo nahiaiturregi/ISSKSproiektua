@@ -17,7 +17,7 @@ if(!$conn){
 }
 
 //Formularioa bete ondoren datuak sartu
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['bidalita'] == '1'){
+if($_SERVER['REQUEST_METHOD'] == 'POST' ){
     //Lortu datuak
     $id = $_POST['id'];
     $izena = $_POST['izena'];

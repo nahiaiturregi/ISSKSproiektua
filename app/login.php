@@ -42,21 +42,29 @@
         $erabiltzailea = $_POST['erabiltzailea'];
         $pasahitza = $_POST['pasahitza'];
 
-        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre= ? AND pasahitza=?");
-        $stmt->bind_param("ss", $erabiltzailea, $pasahitza); 
+        //Kontsulta erabiltzailearen hash-a lortzeko
+        $stmt = $conn->prepare("SELECT id, pasahitza FROM usuarios WHERE nombre= ?");
+        $stmt->bind_param("s", $erabiltzailea); 
         $stmt->execute();
         $result = $stmt->get_result();
 
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
+            $stored_hash = $row['pasahitza'];
             $id = $row['id'];
-            $_SESSION['user'] = $id;
-            header("Location: show_user.php?user=$id");
-            $stmt->close();
-            exit();
+
+            //Pasahitza konprobatu
+            if(password_verify($pasahitza, $stored_hash)){
+                $_SESSION['user'] = $id;
+                header("Location: show_user.php?user=$id");
+                exit();
+            }else{
+                echo "Erabiltzaile edo pasahitza okerra.";
+            }
         } else {
-            echo "Invalid erabiltzailea or pasahitza.";
+            echo "Erabiltzaile edo pasahitza okerra.";
         }
+        $stmt->close();
     }
 
     mysqli_close($conn);

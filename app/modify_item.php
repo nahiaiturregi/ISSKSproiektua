@@ -16,8 +16,21 @@ if (!$conn) {
     die("Errorea konexioan: " . mysqli_connect_error());
 }
 
-// Editatu nahi den itemaren ID-a lortu
-$item_id = $_GET['item'];
+// GET eta POST emaitza saneatzeko funtzioa
+function sanitize_array($data) {
+    $sanitized_data = [];
+    foreach ($data as $key => $value) {
+        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
+    }
+    return $sanitized_data;
+}
+
+// Editatu nahi den itemaren ID-a lortu ID-a zenbaki bat dela frogatuz
+$item_id = filter_var($_GET['item'], FILTER_VALIDATE_INT);
+    if ($item_id === false) {
+        echo "ID ez da onargarria.";
+        exit();
+    }
 
 // Item honen datuak lortu bere id-a erabiliz
 $stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
@@ -34,10 +47,11 @@ if (!$result || mysqli_num_rows($result) == 0) {
 $item = mysqli_fetch_assoc($result);
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $izena=$_POST['izena'];
-    $mota=$_POST['mota'];
-    $tamaina=$_POST['tamaina'];
-    $prezioa=$_POST['prezioa'];
+    $S_POST = sanitize_array($_POST);
+    $izena = $S_POST['izena'];
+    $mota = $S_POST['mota'];
+    $tamaina = $S_POST;
+    $prezioa = $S_POST;
 
     //Datu basean erabiltzailearen datuak eguneratu
 
@@ -65,6 +79,7 @@ mysqli_close($conn);
     <h1>Editatu Funko Pop</h1>
 
     <!-- Datuak aldatzeko sortutako formularioa, automatikoki datu basean gordetako balioekin beteko dena-->
+    <!-- Datuak eskapatzen dira, html karaktere bereziak zuzenean ez irakurtzeko-->
     <form id="item_modify_form" action="modify_item.php?item=<?php echo $item_id; ?>" method="POST">
         Izena: <input type="text" name="izena" value="<?php echo $item['izena']; ?>" required><br>
         Mota: <input type="text" name="mota" value="<?php echo $item['mota']; ?>" required><br>
