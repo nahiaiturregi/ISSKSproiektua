@@ -13,7 +13,7 @@
             die("Datu basearekin konexioa ezin izan da egin: " . $konexioa->connect_error);
         }
 
-        if (isset($_POST['bidalita']) && $_POST['bidalita'] == '1') {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = $_POST['name'];
             $nan = $_POST['nan'];
             $email = $_POST['email'];
@@ -21,8 +21,11 @@
             $jaiotze_data = $_POST['jaiotze_data'];
             $password = $_POST['password'];
 
+            //Pasahitza hasheatu Argon2 algoritmoarekin
+            $hashed_password = password_hash($password, PASSWORD_ARGON2I);
+
             $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
-            $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $password);
+            $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $hashed_password);
             if($stmt->execute()) {
                 echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
             } else {
@@ -75,7 +78,6 @@
 
             <input type="button" name="register_submit" id="register_submit" value="bidali" onclick="datuakEgiaztatu()">
             <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
-            <input type="hidden" name="bidalita" value="0">
         </div>
     </form>
     <script>
@@ -127,7 +129,6 @@
                 return false;
             }
 
-            document.register_form.bidalita.value = '1';
             document.register_form.submit();
             return true;
         }

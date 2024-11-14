@@ -31,7 +31,6 @@ if (isset($_GET['user'])) {
             echo "Telefonoa: " . $row['telefonoa'] . "<br>";
             echo "Jaiotze-data: " . $row['jaiotze_data'] . "<br>";
             echo "Email: " . $row['email'] . "<br>";
-            echo "Pasahitza: " . $row['pasahitza'] . "<br>";
             $id = $row['id'];
             echo '<a href="modify_user.php?user=' . $id . '" style="text-decoration: none;">';
             echo '<button type="button">Datuak aldatu</button>';

@@ -17,7 +17,7 @@ if(!$conn){
 }
 
 //Formularioa bete ondoren datuak sartu
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['bidalita'] == '1'){
+if($_SERVER['REQUEST_METHOD'] == 'POST' ){
     //Lortu datuak
     $id = $_POST['id'];
     $izena = $_POST['izena'];
@@ -71,7 +71,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
         <input type="text" name="prezioa"><br>
         <input type="button" name="item_add_submit" id="item_add_submit" value="Gehitu" onclick="datuakEgiaztatu()">
         <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
-        <input type="hidden" name="bidalita" value="0">
     </form>
     <script>
         function datuakEgiaztatu() {
@@ -85,16 +84,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
                 window.alert("Zerbait hutsik dago");
             } 
 
-            if(isNaN(id) || id < 0){
+            else if(isNaN(id) || id < 0){
                 window.alert("Id zenbaki bat izan behar da.");
             }
 
-            if(isNaN(prezioa) || prezioa < 0){
+            else if(isNaN(prezioa) || prezioa < 0){
                 window.alert("Prezioa zenbaki bat izan behar da.");
             }
             //dena ondo badago formularioa bidali
-            document.item_add_form.bidalita.value = '1';
-            document.item_add_form.submit();
+            else{
+                document.item_add_form.submit();
+            }
             
         }
     </script>
