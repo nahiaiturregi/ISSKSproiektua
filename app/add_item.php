@@ -2,7 +2,7 @@
 //X-Frame-Options segurtasunerako
 header("X-Frame-Options: SAMEORIGIN");
 //CSP segurtasunerako
-header("Content-Security-Policy: style-src 'self'; img-src 'self';");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
 //Datu basera konektatzeko
 $hostname = "db";
 $username = "admin";
@@ -58,6 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
 </head>
 <body>
     <h1>Itemak gehitu</h1>
+    <script src="js/add_item.js" defer></script> 
     <form name="item_add_form" id="item_add_form" method="POST" action="">
         <label>Id:</label><br>
         <input type="text" name="id"><br>
@@ -69,34 +70,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bidalita']) && $_POST['
         <input type="text" name="tamaina"><br>
         <label>Prezioa:</label><br>
         <input type="text" name="prezioa"><br>
-        <input type="button" name="item_add_submit" id="item_add_submit" value="Gehitu" onclick="datuakEgiaztatu()">
-        <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
+        <input type="button" name="item_add_submit" id="item_add_submit" value="Gehitu">
+        <input type="button" value="Hasierara itzuli" id="reset_button">
         <input type="hidden" name="bidalita" value="0">
     </form>
-    <script>
-        function datuakEgiaztatu() {
-            var id = document.item_add_form.id.value;
-            var izena = document.item_add_form.izena.value;
-            var mota = document.item_add_form.mota.value;
-            var tamaina = document.item_add_form.tamaina.value;
-            var prezioa = document.item_add_form.prezioa.value;
-            
-            if (id == "" || izena == "" ||  mota== "" || tamaina == "" || prezioa == "") {
-                window.alert("Zerbait hutsik dago");
-            } 
-
-            if(isNaN(id) || id < 0){
-                window.alert("Id zenbaki bat izan behar da.");
-            }
-
-            if(isNaN(prezioa) || prezioa < 0){
-                window.alert("Prezioa zenbaki bat izan behar da.");
-            }
-            //dena ondo badago formularioa bidali
-            document.item_add_form.bidalita.value = '1';
-            document.item_add_form.submit();
-            
-        }
-    </script>
 </body>
 </html>

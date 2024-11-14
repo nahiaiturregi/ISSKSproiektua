@@ -2,7 +2,7 @@
 	//X-Frame-Options segurtasunerako
 	header("X-Frame-Options: SAMEORIGIN");
 	//CSP segurtasunerako
-	header("Content-Security-Policy: style-src 'self'; img-src 'self';");
+	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
         $hostname = "db";
         $username = "admin";
         $password = "test";
@@ -38,6 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formularioa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="js/register.js" defer></script>
 </head>
 <body>
     <h2>Ongi etorri</h2>
@@ -73,64 +74,10 @@
                 <i class="fa-solid fa-envelope"> </i>
             </div>
 
-            <input type="button" name="register_submit" id="register_submit" value="bidali" onclick="datuakEgiaztatu()">
-            <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
+            <input type="button" name="register_submit" id="register_submit" value="bidali">
+            <input type="button" value="Hasierara itzuli" id="reset_button">
             <input type="hidden" name="bidalita" value="0">
         </div>
     </form>
-    <script>
-        //Datuen formatua egiaztatzeko eta eremuak hutsik ez daudela egiaztatzeko funtzioa
-        function datuakEgiaztatu() {
-            const form = document.forms["register_form"];
-            const name = form["name"].value.trim();
-            const nan = form["nan"].value.trim();
-            const email = form["email"].value.trim();
-            const phone = form["phone"].value.trim();
-            const jaiotze_data = form["jaiotze_data"].value.trim();
-            const password = form["password"].value.trim();
-
-            if (name === "" || nan === "" || email === "" || phone === "" || jaiotze_data === "" || password === "") {
-                alert("Eremu guztiak bete behar dira.");
-                return false;
-            }
-
-            const nanRegex = /^\d{8}-[A-Z]$/;
-            if (!nanRegex.test(nan)) {
-                alert("DNI formatu baliogabea. 8 zenbaki, gidoia eta letra bat izan behar ditu.");
-                return false;
-            }
-            const [zenbakiak, letra] = nan.split('-');
-            const dni = parseInt(zenbakiak, 10);
-            const letraIndex = dni % 23;
-            const letrak = "TRWAGMYFPDXBNJZSQVHLCKET";
-            const letrakalkulatua = letrak[letraIndex];
-            if (letra !== letrakalkulatua) {
-                alert(`DNI letra ez da zuzena.`);
-                return false;
-            }
-
-            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (!dateRegex.test(jaiotze_data)) {
-                alert("Data formatu baliogabea(uuuu-hh-ee).");
-                return false;
-            }
-
-            const phoneRegex = /^\d{9}$/;
-            if (!phoneRegex.test(phone)) {
-                alert("Telefono zenbaki baliogabea");
-                return false;
-            }
-
-            const emailRegex = /^.+@.+\..+$/;
-            if (!emailRegex.test(email)) {
-                alert("Posta elektroniko baliogabea");
-                return false;
-            }
-
-            document.register_form.bidalita.value = '1';
-            document.register_form.submit();
-            return true;
-        }
-    </script>
 </body>
 </html>

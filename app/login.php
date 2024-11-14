@@ -3,7 +3,7 @@
     //X-Frame-Options segurtasunerako
     header("X-Frame-Options: SAMEORIGIN");
     //CSP segurtasunerako
-    header("Content-Security-Policy: style-src 'self'; img-src 'self';");
+    header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
     //DB-arekin konexioa sortu
     $hostname = "db";
     $username = "admin";
@@ -66,6 +66,7 @@
 <html>
 <head>
     <title>Identifikatu</title>
+    <script src="js/login.js" defer></script>
 </head>
 <body>
     <form name="login_form" id="login_form" method="POST" action="">
@@ -73,21 +74,9 @@
         <input type="text" name="erabiltzailea"><br>
         <label>Pasahitza:</label><br>
         <input type="password" name="pasahitza"><br>
-        <input type="button" name="login_submit" id="login_submit" value="bidali" onclick="datuakEgiaztatu()">
-        <input type="button" value="Hasierara itzuli" onclick="location.href='/'">
+        <input type="button" name="login_submit" id="login_submit" value="bidali">
+        <input type="button" value="Hasierara itzuli" id="reset_button">
         <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
     </form>
-    <script>
-        //Datuak hutsik bidaltzen ez direla egiaztatzeko
-        function datuakEgiaztatu() {
-            var erabiltzailea = document.login_form.erabiltzailea.value;
-            var pasahitza = document.login_form.pasahitza.value;
-            if (erabiltzailea == "" || pasahitza == "") {
-                window.alert("Erabiltzailea edo pasahitza hutsik dago");
-            } else {
-                document.login_form.submit();
-            }
-        }
-    </script>
 </body>
 </html>
