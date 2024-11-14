@@ -16,7 +16,13 @@ if(!$conn){
 
 //item-aren id-a hartu URL-tik eta ezabatu
 if (isset($_GET['item'])) {
-    $item = $_GET['item'];
+
+    // Frogatu ID zenbaki bat dela
+    $item = filter_var($_GET['item'], FILTER_VALIDATE_INT);
+    if ($item === false) {
+        echo "ID ez da onargarria.";
+        exit();
+    }
 
     if (isset($_GET['confirm']) && $_GET['confirm'] === 'bai') {
         //Erabiltzaileak ezabaketa onartzen du
