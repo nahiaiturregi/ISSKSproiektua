@@ -80,11 +80,11 @@ mysqli_close($conn);
 
     <!-- Datuak aldatzeko sortutako formularioa, automatikoki datu basean gordetako balioekin beteko dena-->
     <!-- Datuak eskapatzen dira, html karaktere bereziak zuzenean ez irakurtzeko-->
-    <form id="item_modify_form" action="modify_item.php?item=<?php echo $item_id ?>" method="POST">
-        Izena: <input type="text" name="izena" value="<?php echo $item['izena'] ?>" required><br>
-        Mota: <input type="text" name="mota" value="<?php echo $item['mota'] ?>" required><br>
-        Tamaina: <input type="text" name="tamaina" value="<?php echo $item['tamaina'] ?>" required><br>
-        Prezioa: <input type="text" name="prezioa" value="<?php echo $item['prezioa'] ?>" pattern="^\d+(\.\d{1,2})?$" required><br>
+    <form id="item_modify_form" action="modify_item.php?item=<?php echo $item_id; ?>" method="POST">
+        Izena: <input type="text" name="izena" value="<?php echo $item['izena']; ?>" required><br>
+        Mota: <input type="text" name="mota" value="<?php echo $item['mota']; ?>" required><br>
+        Tamaina: <input type="text" name="tamaina" value="<?php echo $item['tamaina']; ?>" required><br>
+        Prezioa: <input type="text" name="prezioa" value="<?php echo $item['prezioa']; ?>" pattern="^\d+(\.\d{1,2})?$" required><br>
         <input id="item_modify_submit" type="submit" value="Eguneratu">
     </form>
 </body>
