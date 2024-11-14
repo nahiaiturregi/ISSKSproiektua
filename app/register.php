@@ -1,4 +1,4 @@
-<<?php
+<?php
 	//X-Frame-Options segurtasunerako
 	header("X-Frame-Options: SAMEORIGIN");
 	//CSP segurtasunerako
