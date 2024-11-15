@@ -20,14 +20,24 @@ if(!$conn){
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
+// GET eta POST emaitza saneatzeko funtzioa
+function sanitize_array($data) {
+    $sanitized_data = [];
+    foreach ($data as $key => $value) {
+        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
+    }
+    return $sanitized_data;
+}
+
 //Formularioa bete ondoren datuak sartu
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //Lortu datuak
-    $id = $_POST['id'];
-    $izena = $_POST['izena'];
-    $mota = $_POST['mota'];
-    $tamaina = $_POST['tamaina'];
-    $prezioa = $_POST['prezioa'];
+    $S_POST = sanitize_array($_POST);
+    $id = $S_POST['id'];
+    $izena = $S_POST['izena'];
+    $mota = $S_POST['mota'];
+    $tamaina = $S_POST['tamaina'];
+    $prezioa = $S_POST['prezioa'];
 
     //ID errepikatuta dagoen egiaztatu
     $stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
