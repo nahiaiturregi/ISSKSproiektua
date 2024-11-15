@@ -17,6 +17,15 @@ if($conn->connect_error){
 	die("Huts egindako konexioa: " . $conn->connect_error);
 }
 
+// GET eta POST emaitza saneatzeko funtzioa
+function sanitize_array($data) {
+    $sanitized_data = [];
+    foreach ($data as $key => $value) {
+        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
+    }
+    return $sanitized_data;
+}
+
 function sortuTokenAntiCSRF() {
 	if (empty($_SESSION['token_antiCSRF'])) {
 		$_SESSION['token_antiCSRF'] = bin2hex(random_bytes(32)); //Token bat sortu
@@ -36,7 +45,11 @@ $token_antiCSRF = sortuTokenAntiCSRF();
 //Egiaztatu ea URLan aldatuko den erabiltzailearen "user_id"-a bidali den, eta ea saioa aktibo dagoen erabiltzaileak saioa hasi egin duela ziurtatzeko
 if(isset($_GET['user']) && isset($_SESSION['user'])){
 	//URltik aldatuko den erabiltzailearen IDa lortu:
-	$user_id=$_GET['user'];
+	$user_id = filter_var($_GET['user'], FILTER_VALIDATE_INT);
+	if ($user_id === false) {
+        echo "ID ez da onargarria.";
+        exit();
+    }
 	
 	//Erabiltzailearen uneko datuak lortzeko kontsulta (IDaren arabera)
 	$stmt = $conn->prepare("SELECT * FROM usuarios WHERE id= ?");
@@ -55,18 +68,19 @@ if(isset($_GET['user']) && isset($_SESSION['user'])){
 	
 	//Formularioa prozesatu datuak aldatzeko
 	if($_SERVER['REQUEST_METHOD']=='POST'){
-		$jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
+		$S_POST = sanitize_array($_POST);
+		$jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
             echo "Ezin da sarbidea onartu.";
             exit();
         }
 
 		//Formularioan $_POST bidez bidalitako datuak atera:
-		$nombre=$_POST['nombre'];
-		$nan=$_POST['nan'];
-		$telefonoa=$_POST['telefonoa'];
-		$jaiotze_data=$_POST['jaiotze_data'];
-		$email=$_POST['email'];
+		$nombre=$S_POST['nombre'];
+		$nan=$S_POST['nan'];
+		$telefonoa=$S_POST['telefonoa'];
+		$jaiotze_data=$S_POST['jaiotze_data'];
+		$email=$S_POST['email'];
 		
 		//NANaren formatu zuzena dela egiaztatu:
 		if(!preg_match("/^[0-9]{8}-[A-Z]$/", $nan)){

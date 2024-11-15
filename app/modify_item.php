@@ -27,10 +27,10 @@ function sanitize_array($data) {
 
 // Editatu nahi den itemaren ID-a lortu ID-a zenbaki bat dela frogatuz
 $item_id = filter_var($_GET['item'], FILTER_VALIDATE_INT);
-    if ($item_id === false) {
-        echo "ID ez da onargarria.";
-        exit();
-    }
+if ($item_id === false) {
+    echo "ID ez da onargarria.";
+    exit();
+}
 
 // Item honen datuak lortu bere id-a erabiliz
 $stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
