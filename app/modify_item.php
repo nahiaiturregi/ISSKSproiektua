@@ -50,8 +50,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $S_POST = sanitize_array($_POST);
     $izena = $S_POST['izena'];
     $mota = $S_POST['mota'];
-    $tamaina = $S_POST;
-    $prezioa = $S_POST;
+    $tamaina = $S_POST['tamaina'];
+    $prezioa = $S_POST['prezioa'];
 
     //Datu basean erabiltzailearen datuak eguneratu
 
