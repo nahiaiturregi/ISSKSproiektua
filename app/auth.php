@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Saioa hasi sesio-aldagaiak erabiltzeko
 
 function checkAdmin() {
     if ($_SESSION['rol'] !== 1) {

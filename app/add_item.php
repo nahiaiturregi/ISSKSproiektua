@@ -1,12 +1,14 @@
 <?php
-//Erabiltzaileak admin baimena duen egiaztatu
 require 'auth.php';
-checkAdmin();
+require 'anti_CSRF.php';
 
-//X-Frame-Options segurtasunerako
-header("X-Frame-Options: SAMEORIGIN");
-//CSP segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
+$token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
+
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
 //Datu basera konektatzeko
 $hostname = "db";
 $username = "admin";
@@ -33,6 +35,11 @@ function sanitize_array($data) {
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //Lortu datuak
     $S_POST = sanitize_array($_POST);
+    $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
+        if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            echo "Ezin da sarbidea onartu.";
+            exit();
+        }
     $id = $S_POST['id'];
     $izena = $S_POST['izena'];
     $mota = $S_POST['mota'];
@@ -86,7 +93,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <input type="text" name="prezioa"><br>
         <input type="button" name="item_add_submit" id="item_add_submit" value="Gehitu">
         <input type="button" value="Hasierara itzuli" id="reset_button">
-        <input type="hidden" name="bidalita" value="0">
+        <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
     </form>
 </body>
 </html>

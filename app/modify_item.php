@@ -1,12 +1,14 @@
 <?php
-//Erabiltzaileak admin baimena duen egiaztatu
 require 'auth.php';
-checkAdmin();
+require 'anti_CSRF.php';
 
-//X-Frame-Options segurtasunerako
-header("X-Frame-Options: SAMEORIGIN");
-//CSP segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
+$token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
+
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
 // Datu basearekin konektatu
 $hostname = "db";
 $username = "admin";
@@ -52,6 +54,11 @@ $item = mysqli_fetch_assoc($result);
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $S_POST = sanitize_array($_POST);
+    $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
+        if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            echo "Ezin da sarbidea onartu.";
+            exit();
+        }
     $izena = $S_POST['izena'];
     $mota = $S_POST['mota'];
     $tamaina = $S_POST['tamaina'];
@@ -89,6 +96,7 @@ mysqli_close($conn);
         Mota: <input type="text" name="mota" value="<?php echo $item['mota']; ?>" required><br>
         Tamaina: <input type="text" name="tamaina" value="<?php echo $item['tamaina']; ?>" required><br>
         Prezioa: <input type="text" name="prezioa" value="<?php echo $item['prezioa']; ?>" pattern="^\d+(\.\d{1,2})?$" required><br>
+        <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
         <input id="item_modify_submit" type="submit" value="Eguneratu">
     </form>
 </body>

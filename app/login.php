@@ -1,9 +1,14 @@
 <?php
+    require 'anti_CSRF.php';
+
     session_start(); //Saioa hasi beharrezko informazioa gordetzeko
-    //X-Frame-Options segurtasunerako
-    header("X-Frame-Options: SAMEORIGIN");
-    //CSP segurtasunerako
-    header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+
+    $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
+
+    header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+
+    header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+    
     //DB-arekin konexioa sortu
     $hostname = "db";
     $username = "admin";
@@ -14,22 +19,6 @@
     if ($conn->connect_error) {
         die("Database connection failed: " . $conn->connect_error);
     }
-
-    function sortuTokenAntiCSRF() {
-        if (empty($_SESSION['token_antiCSRF'])) {
-            $_SESSION['token_antiCSRF'] = bin2hex(random_bytes(32)); //Token bat sortu
-        }
-        return $_SESSION['token_antiCSRF'];
-    }
-
-    function egiaztatuTokenAntiCSRF($jasotako_tokena) {
-        if (isset($_SESSION['token_antiCSRF']) && hash_equals($_SESSION['token_antiCSRF'], $jasotako_tokena)) {
-            return true;
-        }
-        return false;
-    }
-
-    $token_antiCSRF = sortuTokenAntiCSRF();
 
     //Erabiltzailea eta pasahitza bidaltzen badira, datu basean dauden datuekin konparatuko dira
     if ($_SERVER['REQUEST_METHOD']=='POST') {

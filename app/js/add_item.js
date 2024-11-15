@@ -33,6 +33,5 @@ function datuakEgiaztatu() {
         return false;
     }
 
-    document.item_add_form.bidalita.value = '1';
     document.item_add_form.submit();
 }
