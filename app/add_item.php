@@ -1,4 +1,8 @@
 <?php
+//Erabiltzaileak admin baimena duen egiaztatu
+require 'auth.php';
+checkAdmin();
+
 //X-Frame-Options segurtasunerako
 header("X-Frame-Options: SAMEORIGIN");
 //CSP segurtasunerako
@@ -17,7 +21,7 @@ if(!$conn){
 }
 
 //Formularioa bete ondoren datuak sartu
-if($_SERVER['REQUEST_METHOD'] == 'POST' ){
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //Lortu datuak
     $id = $_POST['id'];
     $izena = $_POST['izena'];

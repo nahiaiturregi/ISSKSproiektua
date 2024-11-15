@@ -35,6 +35,7 @@ CREATE TABLE `usuarios` (
   `jaiotze_data` date NOT NULL,
   `email` text NOT NULL,
   `pasahitza` text NOT NULL,
+  `rol` bool NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -51,8 +52,8 @@ CREATE TABLE `FunkoPop` (
 --
 -- Volcado de datos para la tabla `usuarios`
 --
-INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza) VALUES 
-  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234');
+INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza, rol) VALUES 
+  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234', TRUE);
 
 INSERT INTO `FunkoPop` VALUES
   (101, 'Will', 'Stranger Things', 'Handia', 30.99),

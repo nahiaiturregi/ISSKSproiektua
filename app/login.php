@@ -43,7 +43,7 @@
         $pasahitza = $_POST['pasahitza'];
 
         //Kontsulta erabiltzailearen hash-a lortzeko
-        $stmt = $conn->prepare("SELECT id, pasahitza FROM usuarios WHERE nombre= ?");
+        $stmt = $conn->prepare("SELECT id, pasahitza, rol FROM usuarios WHERE nombre= ?");
         $stmt->bind_param("s", $erabiltzailea); 
         $stmt->execute();
         $result = $stmt->get_result();
@@ -56,6 +56,7 @@
             //Pasahitza konprobatu
             if(password_verify($pasahitza, $stored_hash)){
                 $_SESSION['user'] = $id;
+                $_SESSION['rol'] = $row['rol']; //Erabiltzailearen rola gorde
                 header("Location: show_user.php?user=$id");
                 exit();
             }else{

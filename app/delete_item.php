@@ -1,4 +1,8 @@
 <?php
+//Erabiltzaileak admin baimena duen egiaztatu
+require 'auth.php';
+checkAdmin();
+
 //X-Frame-Options segurtasunerako
 header("X-Frame-Options: SAMEORIGIN");
 //CSP segurtasunerako
