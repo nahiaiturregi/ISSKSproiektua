@@ -3,35 +3,45 @@
 	header("X-Frame-Options: SAMEORIGIN");
 	//CSP segurtasunerako
 	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
-        $hostname = "db";
-        $username = "admin";
-        $password = "test";
-        $db = "database";
+    $hostname = "db";
+    $username = "admin";
+    $password = "test";
+    $db = "database";
 
-        $konexioa = mysqli_connect($hostname, $username, $password, $db);
-        if($konexioa->connect_error) {
-            die("Datu basearekin konexioa ezin izan da egin: " . $konexioa->connect_error);
+    $konexioa = mysqli_connect($hostname, $username, $password, $db);
+    if($konexioa->connect_error) {
+        die("Datu basearekin konexioa ezin izan da egin: " . $konexioa->connect_error);
+    }
+
+    //GET eta POST emaitza saneatzeko funtzioa
+    function sanitize_array($data) {
+        $sanitized_data = [];
+        foreach ($data as $key => $value) {
+            $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
         }
+        return $sanitized_data;
+    }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $name = $_POST['name'];
-            $nan = $_POST['nan'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $jaiotze_data = $_POST['jaiotze_data'];
-            $password = $_POST['password'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $S_POST = sanitize_array($_POST);
+        $name = $S_POST['name'];
+        $nan = $S_POST['nan'];
+        $email = $S_POST['email'];
+        $phone = $S_POST['phone'];
+        $jaiotze_data = $S_POST['jaiotze_data'];
+        $password = $S_POST['password'];
 
-            //Pasahitza hasheatu Argon2 algoritmoarekin
-            $hashed_password = password_hash($password, PASSWORD_ARGON2I);
+        //Pasahitza hasheatu Argon2 algoritmoarekin
+        $hashed_password = password_hash($password, PASSWORD_ARGON2I);
 
-            $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
-            $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $hashed_password);
-            if($stmt->execute()) {
-                echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
-            } else {
-                echo "<h3 class='error'>Errore bat egon da</h3>";
-            }
+        $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
+        $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $hashed_password);
+        if($stmt->execute()) {
+            echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
+        } else {
+            echo "<h3 class='error'>Errore bat egon da</h3>";
         }
+    }
 ?>
 
 <!DOCTYPE html>
