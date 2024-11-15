@@ -1,4 +1,6 @@
 <?php
+//Saioko cookieak HttpOnly gisa konfiguratu 
+ini_set('session.cookie_httponly', 1);
 session_start();
 //X-Frame-Options segurtasunerako
 header("X-Frame-Options: SAMEORIGIN");
