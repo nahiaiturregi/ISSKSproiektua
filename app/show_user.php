@@ -1,8 +1,9 @@
 <?php
-//X-Frame-Options segurtasunerako
-header("X-Frame-Options: SAMEORIGIN");
-//CSP segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+session_start();
+
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
 //DB-arekin konexioa sortu
 $hostname = "db";
 $username = "admin";
@@ -15,8 +16,8 @@ if(!$conn){
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
-//Erabiltzailearen id-a URL-tik hartu eta erakutsi datuak
-if (isset($_GET['user'])) {
+//Egiaztatu ea URLan erabiltzaile bat zehaztuta dagoen, saioa hasita dagoen eta URLan zehaztutako erabiltzailearen IDa eta saioan hasitako erabiltzailearen IDa berdinak diren
+if (isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) === intval($_SESSION['user'])) {
     $user = $_GET['user'];
 
     $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
@@ -44,7 +45,7 @@ if (isset($_GET['user'])) {
     }
     $stmt->close();
 } else {
-    echo "Ez da elementurik aukeratu.";
+    echo "Ez da erabiltzailea aurkitu.";
 }
 
 $conn->close();

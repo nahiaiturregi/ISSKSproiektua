@@ -6,7 +6,6 @@ checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 // Datu basearekin konektatu
