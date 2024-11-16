@@ -1,12 +1,12 @@
 <?php
 require 'anti_CSRF.php';
 
-session_start();
-
-$token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
-
 header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
+include('session_config.php');
+
+$token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 $hostname="db";
 $username="admin";

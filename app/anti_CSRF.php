@@ -1,5 +1,5 @@
 <?php
-session_start(); // Saioa hasi sesio-aldagaiak erabiltzeko
+include('session_config.php');
 
 function sortuTokenAntiCSRF() {
     if (empty($_SESSION['token_antiCSRF'])) {

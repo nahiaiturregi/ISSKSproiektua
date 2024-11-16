@@ -35,7 +35,9 @@ Beharrezko datu-basea konfiguratzeko:
      - Pasahitza: test
   3. "database" sakatu, "import" aukeratu eta biltegian dagoen 'database.sql' artxiboa hautatu.
 
-Web sistemako 'home' orrialdea bisitatzeko: **http://localhost:81/**
+Web sistemako 'home' orrialdea bisitatzeko: **https://localhost:81/**
+
+Konexioaren konfidantza faltari buruz abisatzen duen mezu bat agertu daiteke, hala ere, konexioa onartu sistemara sartu ahal izateko.
 
 Amaitzerakoan zerbitzuak gelditzeko:
 ```bash

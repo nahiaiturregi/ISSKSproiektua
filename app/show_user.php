@@ -1,8 +1,8 @@
 <?php
-session_start();
-
 header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
+include('session_config.php');
 
 //DB-arekin konexioa sortu
 $hostname = "db";
