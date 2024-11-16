@@ -1,13 +1,14 @@
 <?php
+ob_start(); //Irteerako buffer bat hasieratu 
+
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+header("Content-Security-Policy: default-src 'self'; script-src 'self' /js/; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+
 require 'auth.php';
 require 'anti_CSRF.php';
 
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
-
-header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 //Datu basera konektatzeko
 $hostname = "db";
@@ -19,6 +20,7 @@ $conn = mysqli_connect($hostname, $username, $password, $db);
 
 //Konexioa egiaztatu
 if(!$conn){
+    ob_end_clean();
     die("Konexio galduta:" .mysqli_connect_error());
 }
 
@@ -70,6 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $stmt->close();
     mysqli_close($conn);
 }
+ob_end_flush(); //Irteerako buffer-a amaitu
 ?>
 
 <!DOCTYPE html>

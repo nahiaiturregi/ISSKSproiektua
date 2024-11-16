@@ -7,7 +7,7 @@
 
     header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
 
-    header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' /js/; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
     
     //DB-arekin konexioa sortu
     $hostname = "db";

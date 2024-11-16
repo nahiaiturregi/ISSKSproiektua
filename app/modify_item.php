@@ -1,4 +1,5 @@
 <?php
+ob_start();//Irteera buffer-a hasieratu
 require 'auth.php';
 require 'anti_CSRF.php';
 
@@ -6,7 +7,6 @@ checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 // Datu basearekin konektatu
@@ -34,8 +34,8 @@ function sanitize_array($data) {
 // Editatu nahi den itemaren ID-a lortu ID-a zenbaki bat dela frogatuz
 $item_id = filter_var($_GET['item'], FILTER_VALIDATE_INT);
 if ($item_id === false) {
-    echo "ID ez da onargarria.";
-    exit();
+    ob_end_clean();
+    die("ID ez da onargarria.");
 }
 
 // Item honen datuak lortu bere id-a erabiliz
@@ -46,6 +46,7 @@ $result = $stmt->get_result();
 
 //Kontsulta hau egin eta gero emaitzarik ez badira agertzen errore bat egon da, edo ez dago id honekin elementurik datu basean
 if (!$result || mysqli_num_rows($result) == 0) {
+    ob_end_clean();
     die("Errorea elementua aurkitzeko: " . mysqli_error($conn));
 }
 
@@ -56,8 +57,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $S_POST = sanitize_array($_POST);
     $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
-            echo "Ezin da sarbidea onartu.";
-            exit();
+            ob_end_clean();
+            die ("Ezin da sarbidea onartu.");
         }
     $izena = $S_POST['izena'];
     $mota = $S_POST['mota'];
@@ -73,12 +74,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         header("Location: show_item.php?item=$item_id");
         exit();
     } else {
-        echo "Errorea: " . $stmt->error;
+        ob_end_clean();
+        die("Errorea: " . $stmt->error);
     }
 }
 
 $stmt->close();
 mysqli_close($conn);
+ob_end_flush();//Irteera buffer-a amaitu
 ?>
 
 <!DOCTYPE html>

@@ -1,4 +1,6 @@
 <?php
+ob_start(); //Irteera buffer-a hasieratu
+
 //Erabiltzaileak admin baimena duen egiaztatu
 require 'auth.php';
 checkAdmin();
@@ -7,6 +9,7 @@ checkAdmin();
 header("X-Frame-Options: SAMEORIGIN");
 //CSP segurtasunerako
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+
 $hostname = "db";
 $username = "admin";
 $password = "test";
@@ -61,4 +64,5 @@ if (isset($_GET['item'])) {
 }
 
 $conn->close();
+ob_end_flush();//Buffer amaitu
 ?>

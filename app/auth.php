@@ -3,7 +3,7 @@ session_start(); // Saioa hasi sesio-aldagaiak erabiltzeko
 
 function checkAdmin() {
     if ($_SESSION['rol'] !== 1) {
-        echo "Ez duzu baimenik hori egiteko.";
+        header("Location: no_permission.php");
         exit();
     }
 }
