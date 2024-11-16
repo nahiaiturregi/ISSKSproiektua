@@ -1,14 +1,11 @@
 <?php
 ob_start(); //Irteera buffer-a hasieratu
 
-//Erabiltzaileak admin baimena duen egiaztatu
 require 'auth.php';
-checkAdmin();
+checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 
-//X-Frame-Options segurtasunerako
-header("X-Frame-Options: SAMEORIGIN");
-//CSP segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 $hostname = "db";
 $username = "admin";

@@ -1,11 +1,10 @@
 <?php
-//Saioko cookieak HttpOnly gisa konfiguratu 
-ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_httponly', 1); //Saioko cookieak HttpOnly gisa konfiguratu 
+
 session_start();
-//X-Frame-Options segurtasunerako
-header("X-Frame-Options: SAMEORIGIN");
-//CSP segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+
+header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 //Botoiren bat sakatu bada, baldintza beteko da
 if (isset($_POST['action'])) {

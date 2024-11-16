@@ -6,7 +6,6 @@ session_start();
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
 
 $hostname="db";
@@ -31,8 +30,8 @@ function sanitize_array($data) {
     return $sanitized_data;
 }
 
-//Egiaztatu ea URLan aldatuko den erabiltzailearen "user_id"-a bidali den, eta ea saioa aktibo dagoen erabiltzaileak saioa hasi egin duela ziurtatzeko
-if(isset($_GET['user']) && isset($_SESSION['user'])){
+//Egiaztatu ea URLan erabiltzaile bat zehaztuta dagoen, saioa hasita dagoen eta URLan zehaztutako erabiltzailearen IDa eta saioan hasitako erabiltzailearen IDa berdinak diren
+if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) === intval($_SESSION['user'])){
 	//URltik aldatuko den erabiltzailearen IDa lortu:
 	$user_id = filter_var($_GET['user'], FILTER_VALIDATE_INT);
 	if ($user_id === false) {
