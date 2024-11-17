@@ -20,7 +20,7 @@ $ git checkout entrega_1
 
 'web' irudia eraiki:
 ```bash
-$ docker build -t="web"
+$ docker build -t="web" .
 ```
 
 Zerbitzuak hedatu docker-compose erabiliz:

@@ -1,9 +1,6 @@
 <?php
 ob_start(); //Irteerako buffer bat hasieratu 
 
-header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self' /js/; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
-
 require 'auth.php';
 require 'anti_CSRF.php';
 

@@ -1,7 +1,4 @@
 <?php
-header("X-Frame-Options: SAMEORIGIN"); // X-Frame-Options segurtasunerako
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"); // CSP segurtasunerako
-
 include('session_config.php');
 
 // Botoiren bat sakatu bada, baldintza beteko da
