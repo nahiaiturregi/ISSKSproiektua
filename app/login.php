@@ -1,6 +1,6 @@
 <?php
     require 'anti_CSRF.php';
-
+    
     include('session_config.php');
 
     $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu

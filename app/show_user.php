@@ -1,6 +1,9 @@
 <?php
 include('session_config.php');
 
+//Zifraketa funtzioak kargatu
+require_once('zifraketa.php');
+
 //DB-arekin konexioa sortu
 $hostname = "db";
 $username = "admin";
@@ -24,11 +27,17 @@ if (isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ==
 
     if(mysqli_num_rows($result) > 0){
         while ($row = mysqli_fetch_assoc($result)) {
+            //Datuak desenkriptatu
+            $email = decrypt($row['email']);
+            $telefonoa = decrypt($row['telefonoa']);
+            $nan = decrypt($row['nan']);
+            $jaiotze_data = decrypt($row['jaiotze_data']);
+
             echo "Izena: " . $row['nombre'] . "<br>";
-            echo "NAN: " . $row['nan'] . "<br>";
-            echo "Telefonoa: " . $row['telefonoa'] . "<br>";
-            echo "Jaiotze-data: " . $row['jaiotze_data'] . "<br>";
-            echo "Email: " . $row['email'] . "<br>";
+            echo "NAN: " . $nan . "<br>";
+            echo "Telefonoa: " . $telefonoa . "<br>";
+            echo "Jaiotze-data: " . $jaiotze_data . "<br>";
+            echo "Email: " . $email . "<br>";
             $id = $row['id'];
             echo '<a href="modify_user.php?user=' . $id . '" style="text-decoration: none;">';
             echo '<button type="button">Datuak aldatu</button>';

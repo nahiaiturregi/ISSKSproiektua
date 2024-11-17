@@ -1,6 +1,9 @@
 <?php
 require 'anti_CSRF.php';
 
+//Zifraketa funtzioak kargatu
+require_once('zifraketa.php');
+
 include('session_config.php');
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
@@ -50,6 +53,12 @@ if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ===
 		echo "Erabiltzaile ez aurkitua.";
 		exit();
 	}
+
+	//Datuak deszifratu
+	$usuario['nan'] = decrypt($usuario['nan']);
+	$usuario['telefonoa'] = decrypt($usuario['telefonoa']);
+	$usuario['jaiotze_data'] = decrypt($usuario['jaiotze_data']);
+	$usuario['email'] = decrypt($usuario['email']);
 	
 	//Formularioa prozesatu datuak aldatzeko
 	if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -84,10 +93,16 @@ if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ===
             		echo "Data formatu baliogabea(uuuu-hh-ee).";
             		exit();
         	}
+		
+		//Datu berriak zifratu:
+		$encrypted_nan = encrypt($nan);
+		$encrypted_telefonoa = encrypt($telefonoa);
+		$encrypted_jaiotze_data = encrypt($jaiotze_data);
+		$encrypted_email = encrypt($email);
         	
         	//Erabiltzailearen datuak datu-basean eguneratu:
 		$stmt = $conn->prepare("UPDATE usuarios SET nombre= ?, nan= ?, telefonoa= ?, jaiotze_data= ?, email= ? WHERE id= ?");
-		$stmt->bind_param("ssissi", $nombre, $nan, $telefonoa, $jaiotze_data, $email, $user_id);
+		$stmt->bind_param("sssssi", $nombre, $encrypted_nan, $encrypted_telefonoa, $encrypted_jaiotze_data, $encrypted_email, $user_id);
 		$stmt->execute();
 
 		//Eguneratze-kontsulta gauzatu. Arrakastatsua bada, berrespen-mezu bat erakutsi:

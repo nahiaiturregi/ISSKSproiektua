@@ -1,4 +1,7 @@
 <?php
+    //Zifraketa funtzioak kargatu
+    require_once('zifraketa.php');
+
     $hostname = "db";
     $username = "admin";
     $password = "test";
@@ -27,15 +30,35 @@
         $jaiotze_data = $S_POST['jaiotze_data'];
         $password = $S_POST['password'];
 
-        //Pasahitza hasheatu Argon2 algoritmoarekin
-        $hashed_password = password_hash($password, PASSWORD_ARGON2I);
+        //Konprobatu erabiltzailea existitzen den ala ez
+        $stmt = $konexioa->prepare("SELECT COUNT(*) FROM usuarios WHERE nombre = ?");
+        $stmt -> bind_param("s", $name);
+        $stmt -> execute();
+        $stmt -> bind_result($count);
+        $stmt -> fetch();
+        $stmt -> close();
 
-        $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
-        $stmt->bind_param("sssiss", $name, $nan, $email, $phone, $jaiotze_data, $hashed_password);
-        if($stmt->execute()) {
-            echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
-        } else {
-            echo "<h3 class='error'>Errore bat egon da</h3>";
+        if($count > 0) {
+            echo "<h3 class='error'>Erabiltzailea existitzen da. Aukeratu beste bat.</h3>";
+        }
+        else{
+             //Datu pertsonalak zifratu
+            $encrypted_nan = encrypt($nan);
+            $encrypted_email = encrypt($email);
+            $encrypted_phone = encrypt($phone);
+            $encrypted_jaiotze_data = encrypt($jaiotze_data);
+
+            //Pasahitza hasheatu Argon2 algoritmoarekin
+            $hashed_password = password_hash($password, PASSWORD_ARGON2I);
+
+            $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
+            $stmt->bind_param("ssssss", $name, $encrypted_nan, $encrypted_email, $encrypted_phone, $encrypted_jaiotze_data, $hashed_password);
+            if($stmt->execute()) {
+                echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
+            } else {
+                echo "<h3 class='error'>Errore bat egon da</h3>";
+            }
+
         }
     }
 ?>

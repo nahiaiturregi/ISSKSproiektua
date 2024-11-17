@@ -31,11 +31,11 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` text NOT NULL, 
   `nan` text NOT NULL, 
-  `telefonoa` int(9) NOT NULL,
-  `jaiotze_data` date NOT NULL,
+  `telefonoa` text NOT NULL,
+  `jaiotze_data` text NOT NULL,
   `email` text NOT NULL,
   `pasahitza` text NOT NULL,
-  `rol` bool NOT NULL DEFAULT FALSE,
+  `rol` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -53,7 +53,7 @@ CREATE TABLE `FunkoPop` (
 -- Volcado de datos para la tabla `usuarios`
 --
 INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza, rol) VALUES 
-  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234', TRUE);
+  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234', 1);
 
 INSERT INTO `FunkoPop` VALUES
   (101, 'Will', 'Stranger Things', 'Handia', 30.99),
