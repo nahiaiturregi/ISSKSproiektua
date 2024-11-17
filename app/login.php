@@ -1,9 +1,6 @@
 <?php
     require 'anti_CSRF.php';
 
-    header("X-Frame-Options: SAMEORIGIN"); //X-Frame-Options segurtasunerako
-    header("Content-Security-Policy: default-src 'self'; script-src 'self' /js/; style-src 'self'; img-src 'self';"); //CSP segurtasunerako
-
     include('session_config.php');
 
     $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
