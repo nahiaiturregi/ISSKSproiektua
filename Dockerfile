@@ -1,4 +1,4 @@
-FROM php:7.3.0-apache
+FROM php:8.1.0-apache
 RUN docker-php-ext-install mysqli
 RUN a2enmod ssl
 RUN echo "expose_php = Off" >> /usr/local/etc/php/conf.d/docker-php.ini
