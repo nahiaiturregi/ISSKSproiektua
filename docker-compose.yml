@@ -5,6 +5,9 @@ services:
     image: web
     environment:
       - ALLOW_OVERRIDE=true
+      - SECRET_KEY=${SECRET_KEY}
+      - SECRET_IV=${SECRET_IV}
+      - SECRET_METHOD=${SECRET_METHOD}
     ports:
       - "81:443"
     links:
