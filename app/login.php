@@ -20,6 +20,7 @@
     if ($_SERVER['REQUEST_METHOD']=='POST') {
         $jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            registrarLog("Login hutsa: Token anti-CSRF ez baliozkoa");
             echo "Ezin da sarbidea onartu.";
             exit();
         }
@@ -42,15 +43,32 @@
             if(password_verify($pasahitza, $stored_hash)){
                 $_SESSION['user'] = $id;
                 $_SESSION['rol'] = $row['rol']; //Erabiltzailearen rola gorde
+                registrarLog("Login arrakastazua");
                 header("Location: show_user.php?user=$id");
                 exit();
             }else{
+                registrarLog("Login hutsa: Pasahitz okerra");
                 echo "Erabiltzaile edo pasahitza okerra.";
             }
         } else {
+            registrarLog("Login hutsa: Ez da erabiltzailea aurkitu");
             echo "Erabiltzaile edo pasahitza okerra.";
         }
         $stmt->close();
+    }
+
+    function registrarLog($mensaje) {
+        $logfile = __DIR__ . '/logs/login_attempts.log'; // log fitxategiaren helbidea
+        $timestamp = date("Y-m-d H:i:s");
+        $ip = $_SERVER['REMOTE_ADDR']; // Erabiltzailearen IP helbidea
+        $entry = "[$timestamp] [IP: $ip] [User: $erabiltzailea] $mensaje" . PHP_EOL;
+        
+        // "logs" direktorioa existitzen ez bada hau sortu
+        if (!file_exists(__DIR__ . '/logs')) {
+            mkdir(__DIR__ . '/logs', 0777, true);
+        }
+        
+        file_put_contents($logfile, $entry, FILE_APPEND);
     }
 
     mysqli_close($conn);

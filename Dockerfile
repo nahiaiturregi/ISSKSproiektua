@@ -11,3 +11,4 @@ RUN echo "Header always set X-Frame-Options \"SAMEORIGIN\"" >> /etc/apache2/conf
 RUN echo "Header always set Content-Security-Policy \"default-src 'self'; script-src 'self' https://localhost:81/js/; style-src 'self'; img-src 'self';\"" >> /etc/apache2/conf-enabled/security.conf
 RUN echo "Header always set Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\"" >> /etc/apache2/conf-enabled/security.conf
 RUN echo "Header always set X-Content-Type-Options \"nosniff\"" >> /etc/apache2/conf-enabled/security.conf
+RUN mkdir -p /var/www/html/logs && chmod -R 775 /var/www/html/logs && chown -R www-data:www-data /var/www/html/logs
