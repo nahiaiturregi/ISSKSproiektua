@@ -43,7 +43,7 @@
             if(password_verify($pasahitza, $stored_hash)){
                 $_SESSION['user'] = $id;
                 $_SESSION['rol'] = $row['rol']; //Erabiltzailearen rola gorde
-                registrarLog("Login arrakastazua");
+                registrarLog("Login arrakastatsua");
                 header("Location: show_user.php?user=$id");
                 exit();
             }else{
