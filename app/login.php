@@ -4,7 +4,7 @@
     include('session_config.php');
 
     $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
-    
+ 
     //DB-arekin konexioa sortu
     $hostname = "db";
     $username = "admin";
@@ -63,6 +63,11 @@
     <script src="js/login.js" defer></script>
 </head>
 <body>
+    <?php
+    if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
+        echo "<p style='color: red;'>Sesioa iraungi da, berriro saioa hasi.</p>";
+    }
+    ?>
     <form name="login_form" id="login_form" method="POST" action="">
         <label>Erabiltzailea:</label><br>
         <input type="text" name="erabiltzailea"><br>

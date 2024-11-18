@@ -4,6 +4,25 @@ include('session_config.php');
 //Zifraketa funtzioak kargatu
 require_once('zifraketa.php');
 
+session_start();
+$max_inactivity_time = 10;
+
+if (isset($_SESSION['last_activity'])) {
+    $inactivity_duration = time() - $_SESSION['last_activity'];
+    if ($inactivity_duration > $max_inactivity_time) {
+        session_unset();
+        session_destroy();
+		header("Location: login.php?timeout=1"); 
+        exit();
+    }
+}
+
+$_SESSION['last_activity'] = time(); // Actualizar la última actividad
+
+if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
+			header("Location: login.php");
+}
+
 //DB-arekin konexioa sortu
 $hostname = "db";
 $username = "admin";
