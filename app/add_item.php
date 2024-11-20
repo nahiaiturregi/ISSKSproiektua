@@ -8,7 +8,7 @@ checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 session_start();
-$max_inactivity_time = 10;
+$max_inactivity_time = 900;
 
 if (isset($_SESSION['last_activity'])) {
     $inactivity_duration = time() - $_SESSION['last_activity'];
