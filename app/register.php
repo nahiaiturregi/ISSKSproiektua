@@ -2,6 +2,8 @@
     //Zifraketa funtzioak kargatu
     require_once('zifraketa.php');
 
+
+
     $hostname = "db";
     $username = "admin";
     $password = "test";
