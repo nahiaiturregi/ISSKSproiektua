@@ -21,7 +21,7 @@ if (isset($_SESSION['last_activity'])) {
     }
 }
 
-$_SESSION['last_activity'] = time(); // Actualizar la última actividad
+$_SESSION['last_activity'] = time(); //Azken aktibitatea eguneratu
 
 if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
 			header("Location: login.php");
