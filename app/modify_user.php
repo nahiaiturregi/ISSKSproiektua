@@ -1,31 +1,11 @@
 <?php
 require 'anti_CSRF.php';
-
-//Zifraketa funtzioak kargatu
-require_once('zifraketa.php');
+require_once('zifraketa.php'); //Zifraketa funtzioak kargatu
 
 include('session_config.php');
+include('timeout.php'); //Saioaren iraupena kontrolatzeko
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
-
-session_start();
-$max_inactivity_time = 900;
-
-if (isset($_SESSION['last_activity'])) {
-    $inactivity_duration = time() - $_SESSION['last_activity'];
-    if ($inactivity_duration > $max_inactivity_time) {
-        session_unset();
-        session_destroy();
-		header("Location: login.php?timeout=1"); 
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time(); // Actualizar la última actividad
-
-if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
-			header("Location: login.php");
-}
 
 $hostname="db";
 $username="admin";
