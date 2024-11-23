@@ -1,8 +1,7 @@
 <?php
     //Zifraketa funtzioak kargatu
     require_once('zifraketa.php');
-
-
+    require 'sanitize.php';
 
     $hostname = "db";
     $username = "admin";
@@ -12,15 +11,6 @@
     $konexioa = mysqli_connect($hostname, $username, $password, $db);
     if($konexioa->connect_error) {
         die("Datu basearekin konexioa ezin izan da egin: " . $konexioa->connect_error);
-    }
-
-    //GET eta POST emaitza saneatzeko funtzioa
-    function sanitize_array($data) {
-        $sanitized_data = [];
-        foreach ($data as $key => $value) {
-            $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
-        }
-        return $sanitized_data;
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

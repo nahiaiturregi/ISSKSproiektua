@@ -2,6 +2,7 @@
 ob_start();//Irteera buffer-a hasieratu
 require 'auth.php';
 require 'anti_CSRF.php';
+require 'sanitize.php';
 
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
@@ -19,15 +20,6 @@ $conn = mysqli_connect($hostname, $username, $password, $db);
 // Konexioa egiaztatu
 if (!$conn) {
     die("Errorea konexioan: " . mysqli_connect_error());
-}
-
-// GET eta POST emaitza saneatzeko funtzioa
-function sanitize_array($data) {
-    $sanitized_data = [];
-    foreach ($data as $key => $value) {
-        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
-    }
-    return $sanitized_data;
 }
 
 // Editatu nahi den itemaren ID-a lortu ID-a zenbaki bat dela frogatuz

@@ -3,6 +3,7 @@ ob_start(); //Irteerako buffer bat hasieratu
 
 require 'auth.php';
 require 'anti_CSRF.php';
+require 'sanitize.php';
 
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
 
@@ -21,15 +22,6 @@ $conn = mysqli_connect($hostname, $username, $password, $db);
 if(!$conn){
     ob_end_clean();
     die("Konexio galduta:" .mysqli_connect_error());
-}
-
-// GET eta POST emaitza saneatzeko funtzioa
-function sanitize_array($data) {
-    $sanitized_data = [];
-    foreach ($data as $key => $value) {
-        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
-    }
-    return $sanitized_data;
 }
 
 //Formularioa bete ondoren datuak sartu

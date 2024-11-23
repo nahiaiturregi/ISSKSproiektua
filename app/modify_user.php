@@ -1,6 +1,7 @@
 <?php
 require 'anti_CSRF.php';
 require_once('zifraketa.php'); //Zifraketa funtzioak kargatu
+require 'sanitize.php';
 
 include('session_config.php');
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
@@ -18,15 +19,6 @@ $conn=mysqli_connect($hostname, $username, $password, $db);
 //Konexioa huts egitekotan, errore-mezua agertu eta amaitu scripta
 if($conn->connect_error){
 	die("Huts egindako konexioa: " . $conn->connect_error);
-}
-
-// GET eta POST emaitza saneatzeko funtzioa
-function sanitize_array($data) {
-    $sanitized_data = [];
-    foreach ($data as $key => $value) {
-        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
-    }
-    return $sanitized_data;
 }
 
 //Egiaztatu ea URLan erabiltzaile bat zehaztuta dagoen, saioa hasita dagoen eta URLan zehaztutako erabiltzailearen IDa eta saioan hasitako erabiltzailearen IDa berdinak diren

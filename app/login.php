@@ -1,5 +1,7 @@
 <?php
     require 'anti_CSRF.php';
+    require 'log_idatzi.php';
+    require 'sanitize.php';
     
     include('session_config.php');
 
@@ -18,15 +20,16 @@
 
     //Erabiltzailea eta pasahitza bidaltzen badira, datu basean dauden datuekin konparatuko dira
     if ($_SERVER['REQUEST_METHOD']=='POST') {
-        $jasotako_tokena = $_POST['token_antiCSRF'] ?? '';
+        $S_POST = sanitize_array($_POST);
+        $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
             registrarLog("Login hutsa: Token anti-CSRF ez baliozkoa");
             echo "Ezin da sarbidea onartu.";
             exit();
         }
-
-        $erabiltzailea = $_POST['erabiltzailea'];
-        $pasahitza = $_POST['pasahitza'];
+        $action = "login";
+        $erabiltzailea = $S_POST['erabiltzailea'];
+        $pasahitza = $S_POST['pasahitza'];
 
         //Kontsulta erabiltzailearen hash-a lortzeko
         $stmt = $conn->prepare("SELECT id, pasahitza, rol FROM usuarios WHERE nombre= ?");
@@ -43,34 +46,19 @@
             if(password_verify($pasahitza, $stored_hash)){
                 $_SESSION['user'] = $id;
                 $_SESSION['rol'] = $row['rol']; //Erabiltzailearen rola gorde
-                registrarLog("Login arrakastatsua");
+                logAction($action,$S_POST,"OK");
                 header("Location: show_user.php?user=$id");
                 exit();
             }else{
-                registrarLog("Login hutsa: Pasahitz okerra");
+                logAction($action,$S_POST,"FAILED: Pasahitz okerra");
                 echo "Erabiltzaile edo pasahitza okerra.";
             }
         } else {
-            registrarLog("Login hutsa: Ez da erabiltzailea aurkitu");
+            logAction($action,$S_POST,"FAILED: Ez da erabiltzailea aurkitu");
             echo "Erabiltzaile edo pasahitza okerra.";
         }
         $stmt->close();
     }
-
-    function registrarLog($mensaje) {
-        $logfile = __DIR__ . '/logs/login_attempts.log'; // log fitxategiaren helbidea
-        $timestamp = date("Y-m-d H:i:s");
-        $ip = $_SERVER['REMOTE_ADDR']; // Erabiltzailearen IP helbidea
-        $entry = "[$timestamp] [IP: $ip] [User: $erabiltzailea] $mensaje" . PHP_EOL;
-        
-        // "logs" direktorioa existitzen ez bada hau sortu
-        if (!file_exists(__DIR__ . '/logs')) {
-            mkdir(__DIR__ . '/logs', 0777, true);
-        }
-        
-        file_put_contents($logfile, $entry, FILE_APPEND);
-    }
-
     mysqli_close($conn);
 ?>
 
