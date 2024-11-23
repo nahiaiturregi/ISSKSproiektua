@@ -1,4 +1,7 @@
 <?php
+
+include_once('config.php'); 
+
 //Funtzioa enkriptatzeko
 function encrypt($data) {
     $method = getenv('SECRET_METHOD');

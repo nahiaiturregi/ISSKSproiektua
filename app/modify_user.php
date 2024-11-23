@@ -2,11 +2,16 @@
 require 'anti_CSRF.php';
 require_once('zifraketa.php'); //Zifraketa funtzioak kargatu
 require 'sanitize.php';
+require 'log_idatzi.php';
 
 include('session_config.php');
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
+
+
+$action = "modify_user";
 
 
 $hostname="db";
@@ -58,6 +63,7 @@ if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ===
 		$jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
             echo "Ezin da sarbidea onartu.";
+			logAction($action,$S_POST,"FAILED: Token anti-CSRF ez baliozkoa");
             exit();
         }
 
@@ -71,18 +77,21 @@ if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ===
 		//NANaren formatu zuzena dela egiaztatu:
 		if(!preg_match("/^[0-9]{8}-[A-Z]$/", $nan)){
 			echo "NAN formatu baliogabea.";
+			logAction($action,$S_POST,"FAILED: NAN formatu baliogabea");
 			exit();
 		}
 		
 		//Telefonoaren formatu zuzena dela egiaztatu:
 		if (!preg_match("/^[0-9]{9}$/", $telefonoa)) {
            		echo "9 digituko telefonoa sartu behar duzu.";
+				logAction($action,$S_POST,"FAILED: telefono baliogabea");
             		exit();
        		}
        		
        		//Jaiotze-dataren formatu zuzena dela egiaztatu:
         	if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $jaiotze_data)) {
             		echo "Data formatu baliogabea(uuuu-hh-ee).";
+					logAction($action,$S_POST,"FAILED: Data formatu baliogabea");
             		exit();
         	}
 		
@@ -100,10 +109,12 @@ if(isset($_GET['user']) && isset($_SESSION['user']) && intval($_GET['user']) ===
 		//Eguneratze-kontsulta gauzatu. Arrakastatsua bada, berrespen-mezu bat erakutsi:
 		if ($stmt->execute()) {
             header("Location: show_user.php?user=$user_id");
+			logAction($action,$S_POST,"OK");
 			exit();
         } else {
 			//Eguneratzerakoan errore baten bat badago, errorea erakutsi:
            	echo "Errorea: " . $stmt->error;
+			logAction($action,$S_POST,"FAILED: " . $stmt->error);
         }
 	}
 } else {

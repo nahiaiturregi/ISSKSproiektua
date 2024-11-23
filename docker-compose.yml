@@ -17,6 +17,7 @@ services:
       - ./cert:/etc/ssl/
       - ./localhost.conf:/etc/apache2/sites-available/000-default.conf
       - ./app/logs:/var/www/html/logs
+      - ./php.ini:/usr/local/etc/php/php.ini
     command: /bin/bash -c "chown -R www-data:www-data /var/www/html/logs && apache2-foreground"
   db:
     image: mariadb:10.8.2

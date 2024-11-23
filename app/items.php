@@ -1,4 +1,7 @@
 <?php
+
+include_once('config.php'); 
+
 //Datu basera konektatzeko
 $hostname = "db";
 $username = "admin";

@@ -1,5 +1,6 @@
 <?php
 include('session_config.php');
+include_once('config.php'); 
 
 function sortuTokenAntiCSRF() {
     if (empty($_SESSION['token_antiCSRF'])) {

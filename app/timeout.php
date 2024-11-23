@@ -1,5 +1,6 @@
 <?php
 include('session_config.php');
+include_once('config.php'); 
 
 $max_inactivity_time = 120;
 

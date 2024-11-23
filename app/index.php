@@ -1,5 +1,6 @@
 <?php
 include('session_config.php');
+include_once('config.php'); 
 
 // Botoiren bat sakatu bada, baldintza beteko da
 if (isset($_POST['action'])) {

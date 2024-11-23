@@ -1,10 +1,14 @@
 <?php
 ob_start(); //Irteera buffer-a hasieratu
-
 require 'auth.php';
+require 'anti_CSRF.php';
+require 'sanitize.php';
+
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
+$token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 $hostname = "db";
 $username = "admin";
@@ -13,22 +17,40 @@ $db = "database";
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
 
-if(!$conn){
-    die("Konexio galduta:" .mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Huts egindako konexioa: " . $conn->connect_error);
 }
 
-//item-aren id-a hartu URL-tik eta ezabatu
-if (isset($_GET['item'])) {
+// Frogatu ID zenbaki bat dela
+$item = filter_var($_GET['item'], FILTER_VALIDATE_INT);
+if ($item === false) {
+    ob_end_clean();
+    echo "ID ez da onargarria.";
+    exit();
+}
 
-    // Frogatu ID zenbaki bat dela
-    $item = filter_var($_GET['item'], FILTER_VALIDATE_INT);
-    if ($item === false) {
-        echo "ID ez da onargarria.";
-        exit();
-    }
+// Item honen datuak lortu bere id-a erabiliz
+$stmt = $conn->prepare("SELECT * FROM FunkoPop WHERE id = ?");
+$stmt->bind_param("i",$item);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if (isset($_GET['confirm']) && $_GET['confirm'] === 'bai') {
+//Kontsulta hau egin eta gero emaitzarik ez badira agertzen errore bat egon da, edo ez dago id honekin elementurik datu basean
+if (!$result || mysqli_num_rows($result) == 0) {
+    ob_end_clean();
+    die("Errorea elementua aurkitzeko: " . mysqli_error($conn));
+}
+
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    $S_POST = sanitize_array($_POST);
+    $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
+        if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
+            ob_end_clean();
+            die ("Ezin da sarbidea onartu.");
+        }
+    if (isset($S_POST['confirm']) && $S_POST['confirm'] === 'Bai') {
         //Erabiltzaileak ezabaketa onartzen du
+        echo("BAI");
         $stmt = $conn->prepare("DELETE FROM FunkoPop WHERE id = ?");
         $stmt->bind_param("i", $item);
         $stmt->execute();
@@ -39,26 +61,26 @@ if (isset($_GET['item'])) {
         } else {
             echo "Ezin izan da elementua ezabatu: " . $stmt->error;
         }
-    } elseif (isset($_GET['confirm']) && $_GET['confirm'] === 'ez') {
+    } elseif (isset($S_POST['confirm']) && $S_POST['confirm'] === 'Ez') {
         //Erabiltzaileak ezabaketa ez duela onartzen adierazi du
         header("Location: items.php");
         exit();
-    } else {
-        // item balio eskapatu, karakter bereziak html entitate seguruetan bihurtzeko
-        $item_escaped = htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
-        // Konfirmazioa eskatu
-        echo "<form method='get' action='delete_item.php'>";
-        echo "<input type='hidden' name='item' value='$item_escaped'>";
-        echo "Elementu hau ezabatu nahi duzu?";
-        echo "<br>";
-        echo "<button type='submit' name='confirm' value='ez'>Ez</button>";
-        echo "<button type='submit' id='item_delete_submit' name='confirm' value='bai'>Bai</button>";
-        echo "</form>";
     }
-} else {
-    echo "Ez da elementurik aukeratu.";
 }
 
+$stmt->close();
 $conn->close();
 ob_end_flush();//Buffer amaitu
 ?>
+
+<!DOCTYPE html>
+<html>
+<body>
+    <form id="delete_item_form" action="delete_item.php?item=<?php echo $item; ?>" method="POST">
+        Elementu hau ezabatu nahi duzu?<br>
+        <input type="hidden" name="token_antiCSRF" value="<?php echo htmlspecialchars($token_antiCSRF); ?>">
+        <input id="delete_item_submit" name="confirm" type="submit" value="Bai">
+        <input name="confirm" type="submit" value="Ez">
+    </form>
+</body>
+</html>

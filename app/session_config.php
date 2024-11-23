@@ -1,4 +1,7 @@
 <?php
+
+include_once('config.php'); 
+
 //Saioko cookiearen parametroak ezarri eta saioa hasi
 if(session_status() == PHP_SESSION_NONE){
     session_set_cookie_params([
