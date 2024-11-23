@@ -13,9 +13,9 @@ $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu ed
 
 //Datu basera konektatzeko
 $hostname = "db";
-$username = "admin";
-$password = "test";
-$db = "database";
+$username = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+$db = getenv('MYSQL_DATABASE');
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
 

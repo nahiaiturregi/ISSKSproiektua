@@ -13,9 +13,9 @@ include_once('config.php');
 
 // Datu basearekin konektatu
 $hostname = "db";
-$username = "admin";
-$password = "test";
-$db = "database";
+$username = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+$db = getenv('MYSQL_DATABASE');
 
 $action = "modify_item";
 

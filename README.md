@@ -15,12 +15,12 @@ Terminalean klonatutako biltegiaren direktoriora joan.
 
 Entrega_1 adarrera aldatu:
 ```bash
-$ git checkout entrega_1
+$ git checkout entrega_2
 ```
 
 'web' irudia eraiki:
 ```bash
-$ docker build -t="web" .
+$ sudo docker build -t="web" .
 ```
 
 Zerbitzuak hedatu docker-compose erabiliz:
@@ -37,7 +37,11 @@ Beharrezko datu-basea konfiguratzeko:
 
 Web sistemako 'home' orrialdea bisitatzeko: **https://localhost:81/**
 
-Konexioaren konfidantza faltari buruz abisatzen duen mezu bat agertu daiteke, hala ere, konexioa onartu sistemara sartu ahal izateko.
+Konexioaren konfidantza faltari buruz abisatzen duen mezu bat agertu daiteke, hala ere, konexioa onartu sistemara sartu ahal izateko. Gerta daiteke sistemaren zertifikatua nabigatzailearen konfidantzazko zertifikatuen zerrendan sartu behar izatea. Firefox-en hori egiteko:
+  1. about:preferences#privacy bisitatu nabigatzailetik.
+  2. 'Certificados' atalera joan eta 'Ver certificados' sakatu.
+  3. 'Importar' sakatu eta klonatutako errepositorioan 'cert' karpetan dagoen 'cert.crt' hautatu.
+  4. Nabigatzailea berabiarazi.
 
 Amaitzerakoan zerbitzuak gelditzeko:
 ```bash
