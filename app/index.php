@@ -19,6 +19,9 @@ if (isset($_POST['action'])) {
         case 'item bat gehitu':
             header("Location: add_item.php");
             exit();
+        case 'saioa itxi':
+            header("Location: logout.php");
+            exit();
         default:
             header("Location: index.php");
             exit();
@@ -33,4 +36,5 @@ if (isset($_POST['action'])) {
     <input type="submit" name="action" value="identifikatu" />
     <input type="submit" name="action" value="zerrenda ikusi" />
     <input type="submit" name="action" value="item bat gehitu" />
+    <input type="submit" name="action" value="saioa itxi" />
 </form>

@@ -1,31 +1,13 @@
 <?php
 require 'anti_CSRF.php';
-
-//Zifraketa funtzioak kargatu
-require_once('zifraketa.php');
+require_once('zifraketa.php'); //Zifraketa funtzioak kargatu
+require 'sanitize.php';
 
 include('session_config.php');
+include('timeout.php'); //Saioaren iraupena kontrolatzeko
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
-session_start();
-$max_inactivity_time = 900;
-
-if (isset($_SESSION['last_activity'])) {
-    $inactivity_duration = time() - $_SESSION['last_activity'];
-    if ($inactivity_duration > $max_inactivity_time) {
-        session_unset();
-        session_destroy();
-		header("Location: login.php?timeout=1"); 
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time(); //Azken aktibitatea eguneratu
-
-if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
-			header("Location: login.php");
-}
 
 $hostname="db";
 $username="admin";
@@ -38,15 +20,6 @@ $conn=mysqli_connect($hostname, $username, $password, $db);
 //Konexioa huts egitekotan, errore-mezua agertu eta amaitu scripta
 if($conn->connect_error){
 	die("Huts egindako konexioa: " . $conn->connect_error);
-}
-
-// GET eta POST emaitza saneatzeko funtzioa
-function sanitize_array($data) {
-    $sanitized_data = [];
-    foreach ($data as $key => $value) {
-        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
-    }
-    return $sanitized_data;
 }
 
 //Egiaztatu ea URLan erabiltzaile bat zehaztuta dagoen, saioa hasita dagoen eta URLan zehaztutako erabiltzailearen IDa eta saioan hasitako erabiltzailearen IDa berdinak diren
