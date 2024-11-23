@@ -1,4 +1,7 @@
 <?php
+
+include_once('config.php'); 
+
 $hostname = "db";
 $username = "admin";
 $password = "test";

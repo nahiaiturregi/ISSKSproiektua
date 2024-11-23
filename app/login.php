@@ -4,6 +4,7 @@
     require 'sanitize.php';
     
     include('session_config.php');
+    include_once('config.php'); 
 
     $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
  
@@ -12,7 +13,7 @@
     $username = "admin";
     $password = "test";
     $db = "database";
-    
+
     $action = "login";
 
     $conn = mysqli_connect($hostname, $username, $password, $db);

@@ -1,5 +1,6 @@
 <?php
 include('session_config.php');
+include_once('config.php'); 
 
 //Zifraketa funtzioak kargatu
 require_once('zifraketa.php');

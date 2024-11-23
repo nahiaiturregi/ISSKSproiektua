@@ -9,6 +9,7 @@ checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 // Datu basearekin konektatu
 $hostname = "db";

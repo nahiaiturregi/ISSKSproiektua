@@ -6,6 +6,7 @@ require 'log_idatzi.php';
 
 include('session_config.php');
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 

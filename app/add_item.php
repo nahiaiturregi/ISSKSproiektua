@@ -6,6 +6,7 @@ require 'anti_CSRF.php';
 require 'sanitize.php';
 
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu

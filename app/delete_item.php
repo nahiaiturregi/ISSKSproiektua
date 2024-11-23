@@ -5,6 +5,7 @@ require 'auth.php';
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 
 include('timeout.php'); //Saioaren iraupena kontrolatzeko
+include_once('config.php'); 
 
 $hostname = "db";
 $username = "admin";

@@ -1,5 +1,6 @@
 <?php
 include('session_config.php');
+include_once('config.php'); 
 
 function checkAdmin() {
     if ($_SESSION['rol'] !== 1) {
