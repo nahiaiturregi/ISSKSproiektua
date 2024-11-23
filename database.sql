@@ -53,7 +53,7 @@ CREATE TABLE `FunkoPop` (
 -- Volcado de datos para la tabla `usuarios`
 --
 INSERT INTO `usuarios` (nombre, nan, telefonoa, jaiotze_data, email, pasahitza, rol) VALUES 
-  ('admin', '66666666-Q', 644646464, '2004-04-02', 'admin@gmail.com', '1234', 1);
+  ('administratzaile', 'o90QOv72sWfEBVRIGLBjDw==', '0bb/xoagyjxNbc3BXLiRcg==', '/VfxglKhrGe8KlwgUJWvQw==', 'ripy7PbMCfqk0AaP8ClrPVcOSwwf+ddl0A3i3L5trzs=', '$argon2i$v=19$m=1024,t=2,p=2$TVc5YWVHUEM3dG11WDJRUA$gwLPis7BC9ygcD52S7B4CN4Seluxu6i4KEZ2XwVZOg4', 1);
 
 INSERT INTO `FunkoPop` VALUES
   (101, 'Will', 'Stranger Things', 'Handia', 30.99),
