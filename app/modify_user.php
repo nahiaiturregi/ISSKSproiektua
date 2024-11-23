@@ -10,7 +10,9 @@ include_once('config.php');
 
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
 
+
 $action = "modify_user";
+
 
 $hostname="db";
 $username="admin";
