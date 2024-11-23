@@ -12,6 +12,8 @@
     $username = "admin";
     $password = "test";
     $db = "database";
+    
+    $action = "login";
 
     $conn = mysqli_connect($hostname, $username, $password, $db);
     if ($conn->connect_error) {
@@ -23,11 +25,10 @@
         $S_POST = sanitize_array($_POST);
         $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
-            registrarLog("Login hutsa: Token anti-CSRF ez baliozkoa");
+            logAction($action,$S_POST,"FAILED: Token anti-CSRF ez baliozkoa");
             echo "Ezin da sarbidea onartu.";
             exit();
         }
-        $action = "login";
         $erabiltzailea = $S_POST['erabiltzailea'];
         $pasahitza = $S_POST['pasahitza'];
 

@@ -3,6 +3,7 @@ ob_start();//Irteera buffer-a hasieratu
 require 'auth.php';
 require 'anti_CSRF.php';
 require 'sanitize.php';
+require 'log_idatzi.php';
 
 checkAdmin(); //Erabiltzaileak admin baimena duen egiaztatu
 $token_antiCSRF = sortuTokenAntiCSRF(); //CSRF erasoen kontra token bat sortu edo lortu
@@ -14,6 +15,8 @@ $hostname = "db";
 $username = "admin";
 $password = "test";
 $db = "database";
+
+$action = "modify_item";
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
 
@@ -49,6 +52,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $jasotako_tokena = $S_POST['token_antiCSRF'] ?? '';
         if (!egiaztatuTokenAntiCSRF($jasotako_tokena)) {
             ob_end_clean();
+            logAction($action,$S_POST,"FAILED: Token anti-CSRF ez baliozkoa");
             die ("Ezin da sarbidea onartu.");
         }
     $izena = $S_POST['izena'];
@@ -63,9 +67,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
     if ($stmt->execute()) {
         header("Location: show_item.php?item=$item_id");
+        logAction($action,$S_POST,"OK");
         exit();
     } else {
         ob_end_clean();
+        logAction($action,$S_POST,"FAILED" . $stmt->error);
         die("Errorea: " . $stmt->error);
     }
 }

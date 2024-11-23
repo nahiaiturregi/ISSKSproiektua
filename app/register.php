@@ -2,11 +2,14 @@
     //Zifraketa funtzioak kargatu
     require_once('zifraketa.php');
     require 'sanitize.php';
+    require 'log_idatzi.php';
 
     $hostname = "db";
     $username = "admin";
     $password = "test";
     $db = "database";
+
+    $action = "register";
 
     $konexioa = mysqli_connect($hostname, $username, $password, $db);
     if($konexioa->connect_error) {
@@ -32,6 +35,7 @@
 
         if($count > 0) {
             echo "<h3 class='error'>Erabiltzailea existitzen da. Aukeratu beste bat.</h3>";
+            logAction($action,$name,"FAILED: Erabiltzailea existitzen da");
         }
         else{
              //Datu pertsonalak zifratu
@@ -46,8 +50,10 @@
             $stmt = $konexioa->prepare("INSERT INTO usuarios(nombre, nan, email, telefonoa, jaiotze_data, pasahitza) VALUES(?,?,?,?,?,?)");
             $stmt->bind_param("ssssss", $name, $encrypted_nan, $encrypted_email, $encrypted_phone, $encrypted_jaiotze_data, $hashed_password);
             if($stmt->execute()) {
+                logAction($action,$name,"OK");
                 echo "<h3 class='success'>Zure erabiltzailea sisteman erregistratu da</h3>";
             } else {
+                logAction($action,$name,"FAILED: " . $stmt->error);
                 echo "<h3 class='error'>Errore bat egon da</h3>";
             }
 
