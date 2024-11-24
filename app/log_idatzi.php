@@ -14,7 +14,7 @@ function logAction($action, $details = [], $status) {
     $ip = $_SERVER['REMOTE_ADDR']; // Erabiltzailearen IP helbidea
     $excludeFields = ['pasahitza', 'token_antiCSRF','nan','telefonoa','jaiotze_data','email'];
     
-    if (is_bool($details)){
+    if (is_array($details)){
         $filteredData = array_diff_key($details, array_flip($excludeFields));
         $message = "[{$timestamp}] IP: {$ip} | Action: {$action} | Details: {$status} " . json_encode($filteredData) . PHP_EOL;
     }
