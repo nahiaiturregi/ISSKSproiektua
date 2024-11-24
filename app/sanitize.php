@@ -6,7 +6,11 @@ include_once('config.php');
 function sanitize_array($data) {
     $sanitized_data = [];
     foreach ($data as $key => $value) {
-        $sanitized_data[$key] = is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
+        if (is_string($value)) {
+            $sanitized_data[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        } else {
+            $sanitized_data[$key] = $value;
+        }
     }
     return $sanitized_data;
 }
