@@ -13,7 +13,9 @@ $ git clone https://github.com/nahiaiturregi/ISSKSproiektua.git
 
 Terminalean klonatutako biltegiaren direktoriora joan.
 
-Entrega_1 adarrera aldatu:
+Direktorioaren barruan .env fitxategia igo edo konfiguratu inguruneko aldagai ezkutuak modu egokian konfiguratu eta erabili ahal izateko.
+
+Entrega_2 adarrera aldatu:
 ```bash
 $ git checkout entrega_2
 ```
@@ -31,8 +33,8 @@ $ docker-compose up
 Beharrezko datu-basea konfiguratzeko:
   1. phpMyAdmin bisitatu hurrengo URL-a erabiliz: **http://localhost:8890/**
   2. Identifikatu:
-     - Erabiltzailea: admin
-     - Pasahitza: test
+     - Erabiltzailea: .env fitxategian adierazitakoa
+     - Pasahitza: .env fitxategian adierazitakoa
   3. "database" sakatu, "import" aukeratu eta biltegian dagoen 'database.sql' artxiboa hautatu.
 
 Web sistemako 'home' orrialdea bisitatzeko: **https://localhost:81/**
