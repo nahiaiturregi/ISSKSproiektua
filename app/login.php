@@ -73,7 +73,7 @@
 <body>
     <?php
     if (isset($_GET['timeout']) && $_GET['timeout'] == '1') {
-        echo "<p style='color: red;'>Sesioa iraungi da, berriro saioa hasi.</p>";
+        echo "<p style='color: red;'>Saioa iraungi da, berriro saioa hasi.</p>";
     }
     ?>
     <form name="login_form" id="login_form" method="POST" action="">
