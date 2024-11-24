@@ -2,7 +2,7 @@
 include('session_config.php');
 include_once('config.php'); 
 
-$max_inactivity_time = 120;
+$max_inactivity_time = 900;
 
 if (isset($_SESSION['last_activity'])) {
     $inactivity_duration = time() - $_SESSION['last_activity'];
